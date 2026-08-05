@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI & Cybersecurity Media Monitoring Dashboard</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.6;background:#f0f2f5;color:#1f2328}
+.page{max-width:1340px;margin:0 auto;padding:16px}
+
+.header{background:#0d1b2a;border-radius:12px;padding:22px 28px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:flex-start}
+.hl-left h1{color:#fff;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.hl-left p{color:#8fa8be;font-size:13px;margin-top:3px}
+.hl-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hl-tag{border:1px solid #2a3d52;border-radius:20px;padding:3px 13px;color:#93b3cc;font-size:12px}
+.hl-right{text-align:right;flex-shrink:0}
+.badge-period{background:#7c3aed;color:#fff;border-radius:20px;padding:4px 16px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:6px}
+.hl-right p{color:#8fa8be;font-size:12px;line-height:1.6}
+
+.alert{background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:13px;color:#1f2328;display:flex;gap:8px;align-items:flex-start}
+.alert strong{color:#b45309}
+.hl-green{color:#16a34a;font-weight:700}
+
+.sec-title{font-size:12px;font-weight:700;color:#374151;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;padding-left:12px;border-left:3px solid #7c3aed}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+.kpi{background:#fff;border-radius:10px;padding:18px 20px;position:relative}
+.kpi-lbl{font-size:12px;color:#57606a;margin-bottom:2px}
+.kpi-val{font-size:30px;font-weight:700;color:#1f2328;line-height:1.1}
+.kpi-chg{font-size:12px;color:#16a34a;font-weight:600;margin-top:3px}
+.kpi-prev{font-size:12px;color:#57606a;margin-top:2px}
+.kpi-prev b{color:#1f2328}
+.kpi-ico{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.ico-blue{background:#eff6ff}.ico-purple{background:#f5f3ff}.ico-green{background:#f0fdf4}.ico-orange{background:#fff7ed}
+.kpi-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.ktag{border-radius:12px;padding:2px 9px;font-size:11px;font-weight:500}
+.ktag-x{background:#e0f7ff;color:#0369a1}
+.ktag-li{background:#eff6ff;color:#1d4ed8}
+.ktag-dk{background:#fef2f2;color:#dc2626}
+.ktag-kp{background:#fff7ed;color:#c2410c}
+.ktag-cn{background:#f0fdf4;color:#15803d}
+
+.two-col{display:grid;grid-template-columns:1fr 420px;gap:12px;margin-bottom:12px}
+.card{background:#fff;border-radius:10px;padding:20px}
+.card-title{font-size:11px;font-weight:700;color:#374151;letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px}
+
+.cat-item{margin-bottom:11px}
+.cat-hd{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px}
+.cat-hd span:last-child{color:#57606a}
+.bar-track{background:#f0f2f5;border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:8px;border-radius:4px}
+
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+
+.donut-area{display:flex;align-items:center;gap:24px;margin-bottom:14px}
+.dl{list-style:none}
+.dl li{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:14px}
+.dl-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+.dl-lbl{color:#57606a;flex:1;min-width:60px}
+.dl-pct{font-weight:700;font-size:15px}
+.pct-g{color:#16a34a}.pct-gr{color:#6b7280}.pct-r{color:#dc2626}
+
+.net-box{border:1px solid #e5e7eb;border-radius:8px;padding:12px 14px;font-size:12px}
+.net-score-row{display:flex;align-items:baseline;gap:5px;margin-bottom:6px}
+.net-score{font-size:24px;font-weight:700;color:#f59e0b}
+.net-label{font-size:11px;color:#57606a}
+.net-track{background:#f0f2f5;border-radius:4px;height:6px;position:relative;margin:4px 0 3px}
+.net-fill{height:6px;border-radius:0 4px 4px 0;background:#f59e0b;position:absolute;left:50%;width:24%}
+.net-lbls{display:flex;justify-content:space-between;font-size:10px;color:#9ca3af}
+.net-desc{font-size:11px;color:#57606a;line-height:1.55;margin-top:8px}
+.hl-ora{color:#f59e0b;font-weight:700}
+.hl-grn{color:#16a34a;font-weight:700}
+
+.psent{margin-bottom:13px}
+.psent-hd{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:3px}
+.psent-cnt{font-size:12px;color:#57606a;font-weight:400}
+.stacked{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px}
+.sg{background:#16a34a}.sn{background:#d1d5db}.sr{background:#dc2626}
+.psent-pct{display:flex;gap:12px;margin-top:3px;font-size:11px;color:#57606a}
+.pg{color:#16a34a}.pr{color:#dc2626}
+
+.insight-box{background:#eff6ff;border-radius:8px;padding:10px 13px;font-size:12px;color:#1e40af;line-height:1.55;margin-top:10px}
+.insight-box b{color:#1e3a8a}
+
+.ch-donut-area{display:flex;align-items:flex-start;gap:24px;margin-bottom:18px}
+.ch-legend{list-style:none;flex:1}
+.ch-legend li{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px}
+.ch-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.ch-lbl{flex:1;color:#1f2328}
+.ch-pct{font-weight:700;color:#1f2328;font-size:14px}
+
+.rtable{width:100%;border-collapse:collapse;font-size:13px}
+.rtable thead th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#57606a;font-weight:600;padding:6px 8px;border-bottom:2px solid #e5e7eb;text-align:left}
+.rtable tbody td{padding:8px 8px;border-bottom:1px solid #f0f2f5;vertical-align:middle}
+.rank-num{background:#eff6ff;color:#1d4ed8;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.sent-mix{color:#f59e0b;font-weight:600}
+.sent-mixn{color:#dc2626;font-weight:600}
+.sent-pos{color:#16a34a;font-weight:600}
+.pd{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
+
+.wtable{width:100%;border-collapse:collapse;font-size:12px}
+.wtable thead th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#57606a;font-weight:600;padding:6px 8px;border-bottom:2px solid #e5e7eb;text-align:center}
+.wtable thead th:first-child{text-align:left}
+.th-sub{font-size:10px;font-weight:400;color:#9ca3af;display:block}
+.wtable tbody td{padding:7px 8px;border-bottom:1px solid #f0f2f5;text-align:center;vertical-align:top}
+.wtable tbody td:first-child{text-align:left;font-weight:600}
+.w-tot{font-weight:700;font-size:13px}
+.g-base{color:#9ca3af;font-size:11px}
+.g-up{background:#d1fae5;color:#065f46;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap}
+.g-warn{background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap}
+.g-down{background:#fee2e2;color:#991b1b;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap}
+.note-warn{background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e;margin-top:10px}
+.legend-row{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.lchip{font-size:11px;padding:2px 10px;border-radius:12px}
+.lc-g{background:#d1fae5;color:#065f46}
+.lc-r{background:#fee2e2;color:#991b1b}
+.lc-gr{background:#f3f4f6;color:#374151}
+
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.topic-card{background:#fff;border-radius:10px;padding:18px 20px}
+.topic-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.topic-title{font-size:15px;font-weight:700;color:#1f2328;line-height:1.3}
+.tbadge{border-radius:12px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.tb-hot{background:#fef2f2;color:#dc2626}
+.tb-gg{background:#d1fae5;color:#065f46}
+.tb-gy{background:#fef3c7;color:#92400e}
+.topic-cnt{font-size:28px;font-weight:700;color:#1f2328;margin:3px 0 1px}
+.topic-sub{font-size:12px;color:#57606a;margin-bottom:6px}
+.topic-bar{height:5px;border-radius:3px;margin-bottom:7px}
+.topic-kw{font-size:11px;color:#57606a;margin-bottom:7px}
+.topic-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.ttag{border-radius:12px;padding:2px 10px;font-size:11px;background:#f0f2f5;color:#374151}
+.tins{background:#f0f9ff;border-radius:6px;padding:9px 12px;font-size:12px;color:#1e40af;line-height:1.5}
+.tins.pur{background:#f5f3ff;color:#5b21b6}
+.tins.tea{background:#f0fdfa;color:#134e4a}
+.tins.amb{background:#fffbeb;color:#92400e}
+.tins b{font-weight:700}
+
+.strat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.strat-card{background:#fff;border-radius:10px;padding:18px 20px;border-top:4px solid #e5e7eb}
+.strat-card.red{border-top-color:#dc2626}
+.strat-card.blue{border-top-color:#2563eb}
+.strat-card.pur{border-top-color:#7c3aed}
+.strat-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.strat-title{font-size:14px;font-weight:700;color:#1f2328}
+.b-high{background:#fee2e2;color:#dc2626;border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
+.b-med{background:#fef3c7;color:#d97706;border-radius:6px;padding:2px 9px;font-size:11px;font-weight:700}
+.strat-text{font-size:13px;color:#374151;line-height:1.6}
+
+.footer{text-align:center;padding:16px 0 6px;border-top:1px solid #e5e7eb;margin-top:6px;font-size:12px;color:#9ca3af}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="hl-left">
+    <h1>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5 3.6 9.5 8 11 4.4-1.5 8-6 8-11V6l-8-4z" fill="#3b82f6" opacity=".9"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      AI &amp; Cybersecurity Media Monitoring Dashboard
+    </h1>
+    <p>Real-time intelligence dari media publik Indonesia &amp; global untuk keperluan strategic marketing</p>
+    <div class="hl-tags">
+      <span class="hl-tag">kompas.com</span>
+      <span class="hl-tag">cnbcindonesia.com</span>
+      <span class="hl-tag">detik.com</span>
+      <span class="hl-tag">LinkedIn</span>
+      <span class="hl-tag">X (Twitter)</span>
+    </div>
+  </div>
+  <div class="hl-right">
+    <div class="badge-period">Juni 2026</div>
+    <p>Periode: 1 – 30 Juni 2026<br>Update: setiap 6 jam</p>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="alert">
+  <span>📊</span>
+  <span><strong>Catatan Analisa:</strong> Data Juni 2026 merupakan baseline periode sebelumnya. Bulan Juli 2026 mencatat pertumbuhan total mentions <span class="hl-green">+18.4%</span>, reach <span class="hl-green">+22.6%</span>, dan Net Sentiment naik dari <span class="hl-green">+24</span> → <span class="hl-green">+34</span>.</span>
+</div>
+
+<!-- SECTION 1 -->
+<div class="sec-title">1 · Awareness — Total Mentions &amp; Distribusi</div>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-ico ico-blue">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    </div>
+    <div class="kpi-lbl">Total Mentions</div>
+    <div class="kpi-val">71,552</div>
+    <div class="kpi-chg">▲ 9.2% vs bulan lalu</div>
+    <div class="kpi-prev">Bulan lalu (Mei 2026): <b>65,516</b> mentions</div>
+    <div class="kpi-tags">
+      <span class="ktag ktag-x">X: 35,610</span>
+      <span class="ktag ktag-li">LinkedIn: 18,600</span>
+      <span class="ktag ktag-dk">Detik: 8,880</span>
+      <span class="ktag ktag-kp">Kompas: 6,110</span>
+      <span class="ktag ktag-cn">CNBC: 2,352</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-purple">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <div class="kpi-lbl">Avg. Daily Mentions</div>
+    <div class="kpi-val">2,385</div>
+    <div class="kpi-chg">▲ 8.4% vs bulan lalu</div>
+    <div class="kpi-prev">Bulan lalu (Mei 2026): <b>2,200</b>/hari</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-green">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <div class="kpi-lbl">Unique Authors</div>
+    <div class="kpi-val">28,750</div>
+    <div class="kpi-chg">▲ 7.3% vs bulan lalu</div>
+    <div class="kpi-prev">Bulan lalu (Mei 2026): <b>26,795</b> authors</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-orange">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    </div>
+    <div class="kpi-lbl">Est. Total Reach</div>
+    <div class="kpi-val">3.43M</div>
+    <div class="kpi-chg">▲ 11.4% vs bulan lalu</div>
+    <div class="kpi-prev">Bulan lalu (Mei 2026): <b>3.08M</b> reach</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <div class="card-title">Trend Mentions Harian — Juni 2026</div>
+    <div style="display:flex;justify-content:flex-end;gap:18px;margin-bottom:6px;font-size:11px;color:#57606a">
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:20px;height:2px;background:#2563eb;display:inline-block;border-radius:2px"></span>AI Topics</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:20px;height:2px;background:#6366f1;display:inline-block;border-radius:2px"></span>Cybersecurity</span>
+    </div>
+    <svg width="100%" height="190" viewBox="0 0 640 190" preserveAspectRatio="none">
+      <line x1="38" y1="10" x2="635" y2="10" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="38" y1="60" x2="635" y2="60" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="38" y1="110" x2="635" y2="110" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="38" y1="160" x2="635" y2="160" stroke="#f0f2f5" stroke-width="1"/>
+      <text x="0" y="13" font-size="10" fill="#9ca3af">3.5k</text>
+      <text x="0" y="63" font-size="10" fill="#9ca3af">2.2k</text>
+      <text x="4" y="113" font-size="10" fill="#9ca3af">1k</text>
+      <line x1="295" y1="10" x2="295" y2="162" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,3"/>
+      <rect x="245" y="12" width="104" height="17" rx="4" fill="#fee2e2"/>
+      <text x="297" y="24" font-size="9" fill="#dc2626" text-anchor="middle">BSSN: insiden breach</text>
+      <polyline points="45,148 85,143 128,138 168,140 210,132 250,126 295,124 330,120 370,113 410,108 450,104 490,100 530,96 580,91 625,88" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linejoin="round"/>
+      <polyline points="45,162 85,160 128,158 168,157 210,154 250,151 295,149 330,147 370,144 410,142 450,140 490,137 530,135 580,132 625,130" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="6,3" stroke-linejoin="round"/>
+      <text x="38" y="178" font-size="10" fill="#9ca3af">1 Jun</text>
+      <text x="155" y="178" font-size="10" fill="#9ca3af">8 Jun</text>
+      <text x="280" y="178" font-size="10" fill="#9ca3af">15 Jun</text>
+      <text x="400" y="178" font-size="10" fill="#9ca3af">22 Jun</text>
+      <text x="555" y="178" font-size="10" fill="#9ca3af">30 Jun</text>
+    </svg>
+  </div>
+  <div class="card">
+    <div class="card-title">Distribusi Mentions Per Kategori</div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>Generative AI</span><span>22,900 (32%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:#2563eb"></div></div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>Data Privacy &amp; Security</span><span>15,740 (22%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:68%;background:#4f46e5"></div></div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>Cyber Threats / Attack</span><span>12,880 (18%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:56%;background:#dc2626"></div></div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>AI in Business / Industry</span><span>10,730 (15%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:47%;background:#16a34a"></div></div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>AI Regulation &amp; Policy</span><span>5,720 (8%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:25%;background:#ca8a04"></div></div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-hd"><span>Lainnya</span><span>3,582 (5%)</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:16%;background:#7c3aed"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="sec-title">2 · Sentiment Analysis</div>
+<div class="three-col">
+
+  <div class="card">
+    <div class="card-title">Overall Sentiment Distribution</div>
+    <div class="donut-area">
+      <!--
+        r=54, cx=70, cy=70  →  C = 2π×54 = 339.29
+        Positive 46% → 156.07  offset=0
+        Neutral  32% → 108.57  offset=-156.07
+        Negative 22% →  74.64  offset=-264.64
+        Group rotated -90° so segment 0 starts at 12 o'clock
+      -->
+      <svg width="148" height="148" viewBox="0 0 140 140">
+        <g transform="rotate(-90 70 70)">
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#f0f2f5" stroke-width="22"/>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#16a34a" stroke-width="22"
+            stroke-dasharray="156.07 339.29" stroke-dashoffset="0"/>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#9ca3af" stroke-width="22"
+            stroke-dasharray="108.57 339.29" stroke-dashoffset="-156.07"/>
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#ef4444" stroke-width="22"
+            stroke-dasharray="74.64 339.29" stroke-dashoffset="-264.64"/>
+        </g>
+        <text x="70" y="65" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2328">46%</text>
+        <text x="70" y="82" text-anchor="middle" font-size="11" fill="#57606a">Positive</text>
+      </svg>
+      <ul class="dl">
+        <li><div class="dl-dot" style="background:#16a34a"></div><span class="dl-lbl">Positive</span><span class="dl-pct pct-g">46%</span></li>
+        <li><div class="dl-dot" style="background:#9ca3af"></div><span class="dl-lbl">Neutral</span><span class="dl-pct pct-gr">32%</span></li>
+        <li><div class="dl-dot" style="background:#ef4444"></div><span class="dl-lbl">Negative</span><span class="dl-pct pct-r">22%</span></li>
+      </ul>
+    </div>
+    <div class="net-box">
+      <div class="net-score-row"><span class="net-score">+24</span><span class="net-label">Net Sentiment Score</span></div>
+      <div class="net-track"><div class="net-fill"></div></div>
+      <div class="net-lbls"><span>-100</span><span>0</span><span>+100</span></div>
+      <div class="net-desc">Dihitung dari <b>%Positif – %Negatif</b> (46% – 22% = <b>+24</b>). Sentimen cenderung <span class="hl-ora">moderat</span> — insiden BSSN menekan skor. Bulan Juli naik ke <span class="hl-grn">+34</span>.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sentiment Per Platform</div>
+    <div class="psent">
+      <div class="psent-hd"><span>X (Twitter)</span><span class="psent-cnt">35.6K</span></div>
+      <div class="stacked"><div class="sg" style="width:42%"></div><div class="sn" style="width:31%"></div><div class="sr" style="width:27%"></div></div>
+      <div class="psent-pct"><span class="pg">42% +</span><span>31% ~</span><span class="pr">27% –</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>LinkedIn</span><span class="psent-cnt">18.6K</span></div>
+      <div class="stacked"><div class="sg" style="width:62%"></div><div class="sn" style="width:28%"></div><div class="sr" style="width:10%"></div></div>
+      <div class="psent-pct"><span class="pg">62% +</span><span>28% ~</span><span class="pr">10% –</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>detik.com</span><span class="psent-cnt">8.9K</span></div>
+      <div class="stacked"><div class="sg" style="width:38%"></div><div class="sn" style="width:36%"></div><div class="sr" style="width:26%"></div></div>
+      <div class="psent-pct"><span class="pg">38% +</span><span>36% ~</span><span class="pr">26% –</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>kompas.com</span><span class="psent-cnt">6.1K</span></div>
+      <div class="stacked"><div class="sg" style="width:44%"></div><div class="sn" style="width:36%"></div><div class="sr" style="width:20%"></div></div>
+      <div class="psent-pct"><span class="pg">44% +</span><span>36% ~</span><span class="pr">20% –</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>cnbcindonesia.com</span><span class="psent-cnt">2.4K</span></div>
+      <div class="stacked"><div class="sg" style="width:50%"></div><div class="sn" style="width:34%"></div><div class="sr" style="width:16%"></div></div>
+      <div class="psent-pct"><span class="pg">50% +</span><span>34% ~</span><span class="pr">16% –</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sentiment Trend — Juni 2026</div>
+    <svg width="100%" height="155" viewBox="0 0 290 155" preserveAspectRatio="none">
+      <line x1="30" y1="15" x2="286" y2="15" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="30" y1="50" x2="286" y2="50" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="30" y1="85" x2="286" y2="85" stroke="#f0f2f5" stroke-width="1"/>
+      <line x1="30" y1="120" x2="286" y2="120" stroke="#f0f2f5" stroke-width="1"/>
+      <text x="0" y="18" font-size="9" fill="#9ca3af">60%</text>
+      <text x="0" y="53" font-size="9" fill="#9ca3af">46%</text>
+      <text x="0" y="88" font-size="9" fill="#9ca3af">32%</text>
+      <text x="0" y="123" font-size="9" fill="#9ca3af">18%</text>
+      <text x="28" y="145" font-size="8" fill="#9ca3af">1 Jun</text>
+      <text x="78" y="145" font-size="8" fill="#9ca3af">8 Jun</text>
+      <text x="125" y="145" font-size="8" fill="#9ca3af">15 Jun</text>
+      <text x="183" y="145" font-size="8" fill="#9ca3af">22 Jun</text>
+      <text x="256" y="145" font-size="8" fill="#9ca3af">30 Jun</text>
+      <line x1="148" y1="12" x2="148" y2="130" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+      <polyline points="32,53 65,51 100,49 128,47 148,60 165,53 190,49 220,45 252,42 276,40" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linejoin="round"/>
+      <polyline points="32,85 65,85 100,85 128,83 148,82 165,86 190,87 220,88 252,88 276,89" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="32,108 65,107 100,106 128,104 148,90 165,100 190,104 220,108 252,112 276,114" fill="none" stroke="#ef4444" stroke-width="2" stroke-linejoin="round"/>
+    </svg>
+    <div style="display:flex;gap:14px;margin-top:2px;font-size:11px;color:#57606a">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#16a34a;display:inline-block"></span>Positive</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#9ca3af;display:inline-block"></span>Neutral</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#ef4444;display:inline-block"></span>Negative</span>
+    </div>
+    <div class="insight-box"><b>Insight:</b> Sentimen negatif melonjak 15–16 Jun akibat insiden kebocoran data BSSN. Positif perlahan pulih di akhir bulan.</div>
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="sec-title">3 · Top Channel Media</div>
+<div class="two-col">
+  <div class="card">
+    <div class="card-title">Channel Share &amp; Ranking by Mentions</div>
+    <!--
+      r=58, cx=72, cy=72  →  C = 2π×58 = 364.42
+      X(Twitter) 49.8% → 181.52  offset=0
+      LinkedIn   26.0% →  94.75  offset=-181.52
+      detik      12.4% →  45.19  offset=-276.27
+      kompas      8.5% →  30.98  offset=-321.46
+      cnbc        3.3% →  12.03  offset=-352.44
+    -->
+    <div class="ch-donut-area">
+      <svg width="160" height="160" viewBox="0 0 144 144">
+        <g transform="rotate(-90 72 72)">
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#f0f2f5" stroke-width="22"/>
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#38bdf8" stroke-width="22"
+            stroke-dasharray="181.52 364.42" stroke-dashoffset="0"/>
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#1d4ed8" stroke-width="22"
+            stroke-dasharray="94.75 364.42" stroke-dashoffset="-181.52"/>
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#dc2626" stroke-width="22"
+            stroke-dasharray="45.19 364.42" stroke-dashoffset="-276.27"/>
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#9f1239" stroke-width="22"
+            stroke-dasharray="30.98 364.42" stroke-dashoffset="-321.46"/>
+          <circle cx="72" cy="72" r="58" fill="none" stroke="#0891b2" stroke-width="22"
+            stroke-dasharray="12.03 364.42" stroke-dashoffset="-352.44"/>
+        </g>
+        <text x="72" y="68" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">71,552</text>
+        <text x="72" y="83" text-anchor="middle" font-size="10" fill="#57606a">mentions</text>
+      </svg>
+      <ul class="ch-legend">
+        <li><div class="ch-dot" style="background:#38bdf8"></div><span class="ch-lbl">X (Twitter)</span><span class="ch-pct">49.8%</span></li>
+        <li><div class="ch-dot" style="background:#1d4ed8"></div><span class="ch-lbl">LinkedIn</span><span class="ch-pct">26.0%</span></li>
+        <li><div class="ch-dot" style="background:#dc2626"></div><span class="ch-lbl">detik.com</span><span class="ch-pct">12.4%</span></li>
+        <li><div class="ch-dot" style="background:#9f1239"></div><span class="ch-lbl">kompas.com</span><span class="ch-pct">8.5%</span></li>
+        <li><div class="ch-dot" style="background:#0891b2"></div><span class="ch-lbl">cnbcindonesia</span><span class="ch-pct">3.3%</span></li>
+      </ul>
+    </div>
+    <table class="rtable">
+      <thead><tr><th>#</th><th>Platform</th><th>Mentions</th><th>Reach</th><th>Sentimen</th></tr></thead>
+      <tbody>
+        <tr><td><div class="rank-num">1</div></td><td><span class="pd" style="background:#38bdf8"></span>X (Twitter)</td><td><b>35,610</b></td><td>1.77M</td><td><span class="sent-mixn">Mixed–</span></td></tr>
+        <tr><td><div class="rank-num">2</div></td><td><span class="pd" style="background:#1d4ed8"></span>LinkedIn</td><td><b>18,600</b></td><td>1.09M</td><td><span class="sent-pos">Pos</span></td></tr>
+        <tr><td><div class="rank-num">3</div></td><td><span class="pd" style="background:#dc2626"></span>detik.com</td><td><b>8,880</b></td><td>490K</td><td><span class="sent-mixn">Mixed–</span></td></tr>
+        <tr><td><div class="rank-num">4</div></td><td><span class="pd" style="background:#9f1239"></span>kompas.com</td><td><b>6,110</b></td><td>355K</td><td><span class="sent-mix">Mixed</span></td></tr>
+        <tr><td><div class="rank-num">5</div></td><td><span class="pd" style="background:#0891b2"></span>cnbcindonesia</td><td><b>2,352</b></td><td>193K</td><td><span class="sent-pos">Pos</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Weekly Mentions Growth Per Channel</div>
+    <table class="wtable">
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>W1<span class="th-sub">1–7 Jun</span></th>
+          <th>W2<span class="th-sub">8–14 Jun</span></th>
+          <th>W3<span class="th-sub">15–21 Jun</span></th>
+          <th>W4<span class="th-sub">22–30 Jun</span></th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pd" style="background:#38bdf8"></span>X</td>
+          <td><div>7,800</div><div class="g-base">baseline</div></td>
+          <td><div>8,400</div><div><span class="g-up">▲ +7.7%</span></div></td>
+          <td><div>9,200</div><div><span class="g-up">▲ +9.5%</span></div></td>
+          <td><div>10,210</div><div><span class="g-up">▲ +11.0%</span></div></td>
+          <td class="w-tot">35,610</td>
+        </tr>
+        <tr>
+          <td><span class="pd" style="background:#1d4ed8"></span>LinkedIn</td>
+          <td><div>4,000</div><div class="g-base">baseline</div></td>
+          <td><div>4,350</div><div><span class="g-up">▲ +8.8%</span></div></td>
+          <td><div>4,800</div><div><span class="g-up">▲ +10.3%</span></div></td>
+          <td><div>5,450</div><div><span class="g-up">▲ +13.5%</span></div></td>
+          <td class="w-tot">18,600</td>
+        </tr>
+        <tr>
+          <td><span class="pd" style="background:#dc2626"></span>Detik</td>
+          <td><div>1,800</div><div class="g-base">baseline</div></td>
+          <td><div>1,980</div><div><span class="g-up">▲ +10.0%</span></div></td>
+          <td><div>2,650</div><div><span class="g-warn">▲ +33.8%</span></div></td>
+          <td><div>2,450</div><div><span class="g-down">▼ –7.5%</span></div></td>
+          <td class="w-tot">8,880</td>
+        </tr>
+        <tr>
+          <td><span class="pd" style="background:#9f1239"></span>Kompas</td>
+          <td><div>1,250</div><div class="g-base">baseline</div></td>
+          <td><div>1,360</div><div><span class="g-up">▲ +8.8%</span></div></td>
+          <td><div>1,900</div><div><span class="g-warn">▲ +39.7%</span></div></td>
+          <td><div>1,600</div><div><span class="g-down">▼ –15.8%</span></div></td>
+          <td class="w-tot">6,110</td>
+        </tr>
+        <tr>
+          <td><span class="pd" style="background:#0891b2"></span>CNBC</td>
+          <td><div>480</div><div class="g-base">baseline</div></td>
+          <td><div>530</div><div><span class="g-up">▲ +10.4%</span></div></td>
+          <td><div>640</div><div><span class="g-up">▲ +20.8%</span></div></td>
+          <td><div>702</div><div><span class="g-up">▲ +9.7%</span></div></td>
+          <td class="w-tot">2,352</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-warn">⚠️ W3 spike pada Detik (+33.8%) &amp; Kompas (+39.7%) dipicu liputan insiden kebocoran data BSSN 15–16 Jun. W4 normalisasi (koreksi turun).</div>
+    <div class="legend-row">
+      <span class="lchip lc-g">▲ Naik vs minggu sebelumnya</span>
+      <span class="lchip lc-r">▼ Turun vs minggu sebelumnya</span>
+      <span class="lchip lc-gr">— Tidak ada perubahan</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="sec-title">4 · Topic Overview — Pertumbuhan Tercepat</div>
+<div class="topic-grid">
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">Kebocoran Data &amp;<br>Ransomware</div><span class="tbadge tb-hot">🔥 #1 Jun</span></div>
+    <div class="topic-cnt">15,820</div>
+    <div class="topic-sub">mentions · dominan di Detik, Kompas &amp; X</div>
+    <div class="topic-bar" style="width:100%;background:#dc2626"></div>
+    <div class="topic-kw">Top keyword: BSSN, kebocoran data, ransomware, PDN</div>
+    <div class="topic-tags"><span class="ttag">BSSN</span><span class="ttag">Ransomware</span><span class="ttag">PDN</span></div>
+    <div class="tins"><b>Insight:</b> Topik ini melonjak jadi #1 di Juni akibat insiden BSSN — berbeda dari Juli di mana GenAI kembali mendominasi.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">Generative AI &amp; LLM<br>Indonesia</div><span class="tbadge tb-gg">▲ +88%</span></div>
+    <div class="topic-cnt">22,900</div>
+    <div class="topic-sub">mentions · dominan di X &amp; LinkedIn</div>
+    <div class="topic-bar" style="width:90%;background:#2563eb"></div>
+    <div class="topic-kw">Top keyword: ChatGPT, Gemini, AI Generatif, LLM</div>
+    <div class="topic-tags"><span class="ttag">ChatGPT</span><span class="ttag">Gemini</span><span class="ttag">LLM</span></div>
+    <div class="tins"><b>Insight:</b> Tumbuh +88% vs Mei 2026, jadi #2 di Juni. Naik ke #1 di Juli setelah insiden BSSN mereda.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">AI di Sektor Perbankan &amp;<br>Fintech</div><span class="tbadge tb-gg">▲ +52%</span></div>
+    <div class="topic-cnt">6,840</div>
+    <div class="topic-sub">mentions · dominan di CNBC &amp; LinkedIn</div>
+    <div class="topic-bar" style="width:30%;background:#16a34a"></div>
+    <div class="topic-kw">Top keyword: fraud detection, AI banking, OJK, fintech</div>
+    <div class="topic-tags"><span class="ttag">Fraud Detection</span><span class="ttag">OJK</span></div>
+    <div class="tins tea"><b>Insight:</b> Insiden BSSN mendorong diskusi keamanan di sektor keuangan dan peran AI dalam fraud detection.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">Regulasi AI &amp; Kebijakan PDN</div><span class="tbadge tb-gg">▲ +61%</span></div>
+    <div class="topic-cnt">5,720</div>
+    <div class="topic-sub">mentions · dominan di LinkedIn &amp; CNBC</div>
+    <div class="topic-bar" style="width:25%;background:#7c3aed"></div>
+    <div class="topic-kw">Top keyword: PDN, regulasi AI, data sovereignty, Kominfo</div>
+    <div class="topic-tags"><span class="ttag">PDN</span><span class="ttag">Kominfo</span></div>
+    <div class="tins pur"><b>Insight:</b> Debat PDN meningkat tajam pasca insiden — jadi katalis diskusi regulasi di kalangan profesional LinkedIn.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">Zero-Trust &amp; Cloud Security</div><span class="tbadge tb-gy">▲ +38%</span></div>
+    <div class="topic-cnt">4,820</div>
+    <div class="topic-sub">mentions · dominan di LinkedIn &amp; X</div>
+    <div class="topic-bar" style="width:21%;background:#4f46e5"></div>
+    <div class="topic-kw">Top keyword: zero trust, cloud security, identity management</div>
+    <div class="topic-tags"><span class="ttag">Zero Trust</span><span class="ttag">Cloud Sec</span></div>
+    <div class="tins pur"><b>Insight:</b> Diskusi teknis zero-trust mulai naik seiring kekhawatiran pasca insiden. Tumbuh ke +54% di Juli.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd"><div class="topic-title">Deepfake &amp; AI Disinformasi</div><span class="tbadge tb-gy">▲ +29%</span></div>
+    <div class="topic-cnt">3,240</div>
+    <div class="topic-sub">mentions · dominan di X &amp; Detik</div>
+    <div class="topic-bar" style="width:14%;background:#ca8a04"></div>
+    <div class="topic-kw">Top keyword: deepfake, hoaks AI, disinformasi</div>
+    <div class="topic-tags"><span class="ttag">Deepfake</span><span class="ttag">Hoaks AI</span></div>
+    <div class="tins amb"><b>Insight:</b> Pertumbuhan moderat di Juni (+29%), akselerasi ke +41% di Juli. Konsisten tumbuh dan layak dipantau.</div>
+  </div>
+</div>
+
+<!-- SECTION 5 -->
+<div class="sec-title">5 · Strategic Marketing Opportunities — Juni 2026</div>
+<div class="strat-grid">
+  <div class="strat-card red">
+    <div class="strat-hd"><span class="strat-title">Crisis Response: Keamanan Data Nasional</span><span class="b-high">HIGH</span></div>
+    <div class="strat-text">Insiden BSSN memicu 15,820 mentions di Juni. Momentum untuk brand positioning sebagai <em>trusted security partner</em> — luncurkan konten respons cepat di Detik, Kompas, dan X.</div>
+  </div>
+  <div class="strat-card blue">
+    <div class="strat-hd"><span class="strat-title">Thought Leadership: GenAI Momentum</span><span class="b-high">HIGH</span></div>
+    <div class="strat-text">GenAI tumbuh +88% di Juni dan terus naik di Juli. Bangun pipeline konten edukasi di LinkedIn — target profesional yang mulai mempertimbangkan adopsi AI.</div>
+  </div>
+  <div class="strat-card pur">
+    <div class="strat-hd"><span class="strat-title">Policy Engagement: Isu PDN &amp; Regulasi</span><span class="b-med">MED</span></div>
+    <div class="strat-text">Debat PDN dan data sovereignty meningkat +61% di Juni. Targetkan CxO dan decision maker dengan whitepaper posisi brand terkait kepatuhan regulasi data nasional.</div>
+  </div>
+</div>
+
+<div class="footer">
+  Data bersifat simulasi untuk keperluan preview dashboard · Periode 1–30 Juni 2026 · Sumber: kompas.com, cnbcindonesia.com, detik.com, LinkedIn, X (Twitter)<br>
+  <span style="font-size:11px;color:#c4c9d1">Made with IBM Bob</span>
+</div>
+
+</div>
+</body>
+</html>
