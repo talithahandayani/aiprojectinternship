@@ -69,14 +69,32 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .dl-pct{font-weight:700;font-size:15px}
 .pct-g{color:#16a34a}.pct-gr{color:#6b7280}.pct-r{color:#dc2626}
 
-.net-box{border:1px solid #e5e7eb;border-radius:8px;padding:12px 14px;font-size:12px}
-.net-score-row{display:flex;align-items:baseline;gap:5px;margin-bottom:6px}
-.net-score{font-size:24px;font-weight:700;color:#f59e0b}
+.net-box{border:1.5px solid #e5e7eb;border-radius:8px;padding:13px 14px;font-size:12px}
+.net-score-row{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+.net-score{font-size:28px;font-weight:700;transition:color .3s}
+.net-score.moderate{color:#f59e0b}
+.net-score.good{color:#16a34a}
 .net-label{font-size:11px;color:#57606a}
-.net-track{background:#f0f2f5;border-radius:4px;height:6px;position:relative;margin:4px 0 3px}
-.net-fill{height:6px;border-radius:0 4px 4px 0;background:#f59e0b;position:absolute;left:50%}
-.net-lbls{display:flex;justify-content:space-between;font-size:10px;color:#9ca3af}
-.net-desc{font-size:11px;color:#57606a;line-height:1.55;margin-top:8px}
+/* score badge inline */
+.net-badge{font-size:10px;font-weight:600;border-radius:10px;padding:2px 8px;margin-left:4px;vertical-align:middle}
+.net-badge.moderate{background:#fef3c7;color:#92400e}
+.net-badge.good{background:#d1fae5;color:#065f46}
+/* track */
+.net-track{background:#f0f2f5;border-radius:6px;height:10px;position:relative;margin:4px 0 5px;overflow:hidden}
+/* zone markers inside track */
+.net-zone-neg{position:absolute;left:0;top:0;width:50%;height:100%;background:linear-gradient(to right,#fee2e2 0%,#fef3c7 100%);opacity:.35;border-radius:6px 0 0 6px}
+.net-zone-pos{position:absolute;left:50%;top:0;width:50%;height:100%;background:linear-gradient(to left,#d1fae5 0%,#fef3c7 100%);opacity:.35;border-radius:0 6px 6px 0}
+/* center tick */
+.net-center-tick{position:absolute;left:50%;top:0;width:2px;height:100%;background:#d1d5db;transform:translateX(-50%)}
+.net-fill{height:10px;border-radius:0 6px 6px 0;position:absolute;left:50%;transition:width .4s ease,background .3s}
+.net-fill.moderate{background:#f59e0b}
+.net-fill.good{background:#16a34a}
+.net-lbls{display:flex;justify-content:space-between;font-size:10px;color:#9ca3af;margin-top:2px}
+.net-mid-lbl{position:absolute;left:50%;transform:translateX(-50%);font-size:10px;color:#9ca3af;bottom:-16px}
+.net-desc{font-size:11px;color:#57606a;line-height:1.55;margin-top:10px}
+.net-reason{font-size:11px;border-radius:6px;padding:6px 10px;margin-top:7px;line-height:1.5}
+.net-reason.moderate{background:#fffbeb;color:#92400e;border-left:3px solid #f59e0b}
+.net-reason.good{background:#f0fdf4;color:#15803d;border-left:3px solid #16a34a}
 .hl-ora{color:#f59e0b;font-weight:700}
 .hl-grn{color:#16a34a;font-weight:700}
 
@@ -356,11 +374,21 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
         <li><div class="dl-dot" style="background:#ef4444"></div><span class="dl-lbl">Negative</span><span class="dl-pct pct-r" id="sent-neg-pct">22%</span></li>
       </ul>
     </div>
-    <div class="net-box">
-      <div class="net-score-row"><span class="net-score" id="net-score">+24</span><span class="net-label">Net Sentiment Score</span></div>
-      <div class="net-track"><div class="net-fill" id="net-fill" style="width:24%"></div></div>
-      <div class="net-lbls"><span>-100</span><span>0</span><span>+100</span></div>
-      <div class="net-desc" id="net-desc">Dihitung dari <b>%Positif – %Negatif</b> (46% – 22% = <b>+24</b>). Sentimen cenderung <span class="hl-ora">moderat</span> — insiden BSSN menekan skor. Bulan Juli naik ke <span class="hl-grn">+34</span>.</div>
+    <div class="net-box" id="net-box">
+      <div class="net-score-row">
+        <span class="net-score moderate" id="net-score">+24</span>
+        <span class="net-label">Net Sentiment Score</span>
+        <span class="net-badge moderate" id="net-badge">⚠ Moderat</span>
+      </div>
+      <div class="net-track">
+        <div class="net-zone-neg"></div>
+        <div class="net-zone-pos"></div>
+        <div class="net-center-tick"></div>
+        <div class="net-fill moderate" id="net-fill" style="width:24%"></div>
+      </div>
+      <div class="net-lbls"><span>-100</span><span style="text-align:center">0</span><span>+100</span></div>
+      <div class="net-desc" id="net-desc"></div>
+      <div class="net-reason moderate" id="net-reason">🟡 <b>Kuning (Moderat)</b> — Skor +24 berada di zona 0–29. Sentimen positif mendominasi tapi masih ditekan insiden BSSN. Perlu pemantauan lebih lanjut.</div>
     </div>
   </div>
 
@@ -924,8 +952,33 @@ function setMonth(month) {
   document.getElementById('sent-pos-pct').textContent = d.sent.pos + '%';
   document.getElementById('sent-neu-pct').textContent = d.sent.neu + '%';
   document.getElementById('sent-neg-pct').textContent = d.sent.neg + '%';
-  document.getElementById('net-score').textContent = d.sent.net;
-  document.getElementById('net-fill').style.width = d.sent.netWidth;
+
+  // Net Sentiment Score — dynamic color logic
+  const netVal = parseInt(d.sent.net);   // e.g. +24 → 24, +34 → 34
+  const isGood = netVal >= 30;           // threshold: ≥30 = good (hijau), <30 = moderate (kuning)
+  const tier   = isGood ? 'good' : 'moderate';
+
+  const elScore  = document.getElementById('net-score');
+  const elFill   = document.getElementById('net-fill');
+  const elBadge  = document.getElementById('net-badge');
+  const elReason = document.getElementById('net-reason');
+
+  elScore.textContent = d.sent.net;
+  elScore.className   = 'net-score ' + tier;
+  elFill.style.width  = d.sent.netWidth;
+  elFill.className    = 'net-fill ' + tier;
+  elBadge.className   = 'net-badge ' + tier;
+
+  if (isGood) {
+    elBadge.textContent  = '✅ Bagus';
+    elReason.className   = 'net-reason good';
+    elReason.innerHTML   = '🟢 <b>Hijau (Bagus)</b> — Skor ' + d.sent.net + ' ≥ +30: lebih dari sepertiga percakapan bersifat positif bersih. Sentimen publik mendukung brand positioning secara aktif.';
+  } else {
+    elBadge.textContent  = '⚠ Moderat';
+    elReason.className   = 'net-reason moderate';
+    elReason.innerHTML   = '🟡 <b>Kuning (Moderat)</b> — Skor ' + d.sent.net + ' berada di zona 0–29: sentimen positif memimpin tapi belum dominan penuh. Tekanan eksternal (insiden BSSN) masih memengaruhi persepsi publik.';
+  }
+
   document.getElementById('net-desc').innerHTML = d.sent.desc;
   document.getElementById('sent-insight').innerHTML = d.sent.insight;
 
