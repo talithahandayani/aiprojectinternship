@@ -50,6 +50,8 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .ktag-cn{background:#f0fdf4;color:#15803d}
 
 .two-col{display:grid;grid-template-columns:1fr 420px;gap:12px;margin-bottom:12px}
+/* Section 3: panel kiri dikecilkan (400px fixed), panel kanan dapat sisa ruang */
+.two-col-ch{display:grid;grid-template-columns:400px 1fr;gap:12px;margin-bottom:12px}
 .card{background:#fff;border-radius:10px;padding:20px}
 .card-title{font-size:11px;font-weight:700;color:#374151;letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px}
 
@@ -109,12 +111,12 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .insight-box{background:#eff6ff;border-radius:8px;padding:10px 13px;font-size:12px;color:#1e40af;line-height:1.55;margin-top:10px}
 .insight-box b{color:#1e3a8a}
 
-.ch-donut-area{display:flex;align-items:flex-start;gap:24px;margin-bottom:18px}
+.ch-donut-area{display:flex;align-items:center;gap:16px;margin-bottom:16px}
 .ch-legend{list-style:none;flex:1}
-.ch-legend li{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px}
-.ch-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.ch-legend li{display:flex;align-items:center;gap:7px;margin-bottom:8px;font-size:12px}
+.ch-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
 .ch-lbl{flex:1;color:#1f2328}
-.ch-pct{font-weight:700;color:#1f2328;font-size:14px}
+.ch-pct{font-weight:700;color:#1f2328;font-size:13px}
 
 .rtable{width:100%;border-collapse:collapse;font-size:13px}
 .rtable thead th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#57606a;font-weight:600;padding:6px 8px;border-bottom:2px solid #e5e7eb;text-align:left}
@@ -126,11 +128,11 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .pd{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px}
 
 .wtable{width:100%;border-collapse:collapse;font-size:12px}
-.wtable thead th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#57606a;font-weight:600;padding:6px 8px;border-bottom:2px solid #e5e7eb;text-align:center}
+.wtable thead th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#57606a;font-weight:600;padding:5px 7px;border-bottom:2px solid #e5e7eb;text-align:center;white-space:nowrap}
 .wtable thead th:first-child{text-align:left}
-.th-sub{font-size:10px;font-weight:400;color:#9ca3af;display:block}
-.wtable tbody td{padding:7px 8px;border-bottom:1px solid #f0f2f5;text-align:center;vertical-align:top}
-.wtable tbody td:first-child{text-align:left;font-weight:600}
+.th-sub{font-size:10px;font-weight:400;color:#9ca3af;display:block;white-space:nowrap}
+.wtable tbody td{padding:6px 7px;border-bottom:1px solid #f0f2f5;text-align:center;vertical-align:top}
+.wtable tbody td:first-child{text-align:left;font-weight:600;white-space:nowrap}
 .w-tot{font-weight:700;font-size:13px}
 .g-base{color:#9ca3af;font-size:11px}
 .g-up{background:#d1fae5;color:#065f46;border-radius:4px;padding:1px 5px;font-weight:600;white-space:nowrap}
@@ -498,11 +500,11 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 
 <!-- SECTION 3 CHANNEL -->
 <div class="sec-title">3 · Top Channel Media</div>
-<div class="two-col">
+<div class="two-col-ch">
   <div class="card">
     <div class="card-title">Channel Share &amp; Ranking by Mentions</div>
     <div class="ch-donut-area">
-      <svg width="160" height="160" viewBox="0 0 144 144">
+      <svg width="130" height="130" viewBox="0 0 144 144">
         <g transform="rotate(-90 72 72)">
           <circle cx="72" cy="72" r="58" fill="none" stroke="#f0f2f5" stroke-width="22"/>
           <circle id="ch-x"  cx="72" cy="72" r="58" fill="none" stroke="#38bdf8" stroke-width="22" stroke-dasharray="181.52 364.42" stroke-dashoffset="0"/>
