@@ -525,13 +525,13 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
       </ul>
     </div>
     <table class="rtable">
-      <thead><tr><th>#</th><th>Platform</th><th>Mentions</th><th>Reach</th><th>Sentimen</th></tr></thead>
+      <thead><tr><th>#</th><th>Platform</th><th>Mentions</th><th>Reach</th></tr></thead>
       <tbody id="rank-tbody">
-        <tr><td><div class="rank-num">1</div></td><td><span class="pd" style="background:#38bdf8"></span>X (Twitter)</td><td><b>35,610</b></td><td>1.77M</td><td><span class="sent-mixn">Mixed–</span></td></tr>
-        <tr><td><div class="rank-num">2</div></td><td><span class="pd" style="background:#1d4ed8"></span>LinkedIn</td><td><b>18,600</b></td><td>1.09M</td><td><span class="sent-pos">Pos</span></td></tr>
-        <tr><td><div class="rank-num">3</div></td><td><span class="pd" style="background:#dc2626"></span>detik.com</td><td><b>8,880</b></td><td>490K</td><td><span class="sent-mixn">Mixed–</span></td></tr>
-        <tr><td><div class="rank-num">4</div></td><td><span class="pd" style="background:#9f1239"></span>kompas.com</td><td><b>6,110</b></td><td>355K</td><td><span class="sent-mix">Mixed</span></td></tr>
-        <tr><td><div class="rank-num">5</div></td><td><span class="pd" style="background:#0891b2"></span>cnbcindonesia</td><td><b>2,352</b></td><td>193K</td><td><span class="sent-pos">Pos</span></td></tr>
+        <tr><td><div class="rank-num">1</div></td><td><span class="pd" style="background:#38bdf8"></span>X (Twitter)</td><td><b>35,610</b></td><td>1.77M</td></tr>
+        <tr><td><div class="rank-num">2</div></td><td><span class="pd" style="background:#1d4ed8"></span>LinkedIn</td><td><b>18,600</b></td><td>1.09M</td></tr>
+        <tr><td><div class="rank-num">3</div></td><td><span class="pd" style="background:#dc2626"></span>detik.com</td><td><b>8,880</b></td><td>490K</td></tr>
+        <tr><td><div class="rank-num">4</div></td><td><span class="pd" style="background:#9f1239"></span>kompas.com</td><td><b>6,110</b></td><td>355K</td></tr>
+        <tr><td><div class="rank-num">5</div></td><td><span class="pd" style="background:#0891b2"></span>cnbcindonesia</td><td><b>2,352</b></td><td>193K</td></tr>
       </tbody>
     </table>
   </div>
@@ -909,7 +909,6 @@ function renderRank(rank) {
       <td><span class="pd" style="background:${r.color}"></span>${r.name}</td>
       <td><b>${r.mentions}</b></td>
       <td>${r.reach}</td>
-      <td>${r.sent}</td>
     </tr>`).join('');
 }
 
