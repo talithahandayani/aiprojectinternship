@@ -158,8 +158,14 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .strat-text{font-size:13px;color:#374151;line-height:1.6}
 
 .footer{text-align:center;padding:16px 0 6px;border-top:1px solid #e5e7eb;margin-top:6px;font-size:12px;color:#9ca3af}
-.datasrc-box{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:12px;color:#374151;line-height:1.7}
+.datasrc-box{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:12px;color:#374151;line-height:1.7}
 .datasrc-box b{color:#1f2328}
+.datasrc-box summary{cursor:pointer;font-size:12px;color:#374151;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
+.datasrc-box summary::-webkit-details-marker{display:none}
+.datasrc-box summary:hover{color:#2563eb}
+.datasrc-hint{font-size:11px;color:#9ca3af;font-weight:400;margin-left:4px}
+.datasrc-box[open] .datasrc-hint{display:none}
+.datasrc-body{margin-top:10px;padding-top:10px;border-top:1px solid #e5e7eb;line-height:1.8}
 </style>
 </head>
 <body>
@@ -188,15 +194,18 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 </div>
 
 <!-- DATA SOURCE DISCLOSURE -->
-<div class="datasrc-box">
-  📋 <b>Transparansi Data:</b> Semua angka di bawah bersumber dari artikel yang secara nyata ter-crawl pada 12–14 Agustus 2026.
-  <b>Kompas.com</b>: 20 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 7 baru dari tekno.kompas.com 13–14 Agu).
-  <b>CNBC Indonesia</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 1 baru 13 Agu).
-  <b>Detik.com</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 2 baru 13–14 Agu).
-  <b>X/Twitter</b>: 9 tweet nyata berhasil di-fetch (6 lama + 3 baru 13–14 Agu); tweet terpopuler = 70.487 views (Turing AI Indonesia, 29 Jul).
-  <b>LinkedIn</b>: 6 post nyata ter-fetch (Black Hat 2026, GovInsider Indonesia BSSN, CoreWeave Indonesia, AI Governance Perpres RI, MAS Agentic AI, Veeam Black Hat 2026) — dicrawl 14 Agustus 2026.
-  Kolom "Artikel Agu 2026" = artikel yang secara eksplisit ter-verifikasi dalam sesi crawl ini.
-</div>
+<details class="datasrc-box">
+  <summary>📋 <b>Transparansi Data</b> — Semua sumber & metodologi crawl <span class="datasrc-hint">klik untuk lihat detail ▾</span></summary>
+  <div class="datasrc-body">
+    Semua angka di bawah bersumber dari artikel yang secara nyata ter-crawl pada 12–14 Agustus 2026.<br>
+    <b>Kompas.com</b>: 20 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 7 baru dari tekno.kompas.com 13–14 Agu).<br>
+    <b>CNBC Indonesia</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 1 baru 13 Agu).<br>
+    <b>Detik.com</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (termasuk 2 baru 13–14 Agu).<br>
+    <b>X/Twitter</b>: 9 tweet nyata berhasil di-fetch (6 lama + 3 baru 13–14 Agu); tweet terpopuler = 70.487 views (Turing AI Indonesia, 29 Jul).<br>
+    <b>LinkedIn</b>: 6 post nyata ter-fetch (Black Hat 2026, GovInsider Indonesia BSSN, CoreWeave Indonesia, AI Governance Perpres RI, MAS Agentic AI, Veeam Black Hat 2026) — dicrawl 14 Agustus 2026.<br>
+    Kolom "Artikel Agu 2026" = artikel yang secara eksplisit ter-verifikasi dalam sesi crawl ini.
+  </div>
+</details>
 
 <!-- ALERT -->
 <div class="alert">
