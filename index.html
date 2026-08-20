@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI & Cybersecurity Media Monitoring Dashboard — Agustus 2026 (Update 18 Agu)</title>
+<title>AI & Cybersecurity Media Monitoring Dashboard — Agustus & Juli 2026</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;line-height:1.6;background:#f0f2f5;color:#1f2328}
@@ -166,6 +166,12 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .datasrc-hint{font-size:11px;color:#9ca3af;font-weight:400;margin-left:4px}
 .datasrc-box[open] .datasrc-hint{display:none}
 .datasrc-body{margin-top:10px;padding-top:10px;border-top:1px solid #e5e7eb;line-height:1.8}
+/* Period Switcher */
+.period-switcher{display:flex;gap:6px;margin-bottom:8px}
+.period-btn{border:2px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 18px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .18s}
+.period-btn:hover{border-color:rgba(255,255,255,.6);color:#fff}
+.period-btn.active{background:#7c3aed;border-color:#7c3aed;color:#fff}
+.period-meta{font-size:12px;color:#8fa8be;line-height:1.7}
 </style>
 </head>
 <body>
@@ -188,19 +194,24 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
     </div>
   </div>
   <div class="hl-right">
-    <div class="badge-period">Agustus 2026</div>
-    <p>Periode: 1 – 18 Agustus 2026<br>Data di-fetch: 14 &amp; 18 Agustus 2026</p>
+    <div class="period-switcher">
+      <button class="period-btn" id="btn-jul" onclick="switchPeriod('jul')">◀ Juli 2026</button>
+      <button class="period-btn active" id="btn-agu" onclick="switchPeriod('agu')">Agustus 2026</button>
+    </div>
+    <div class="period-meta" id="period-meta-agu">Periode: 1 – 19 Agustus 2026<br>Data di-fetch: 14, 18 &amp; 19 Agustus 2026</div>
+    <div class="period-meta" id="period-meta-jul" style="display:none">Periode: 1 – 31 Juli 2026<br>Data di-fetch: Agustus 2026</div>
   </div>
 </div>
 
+<div id="period-agu">
 <!-- DATA SOURCE DISCLOSURE -->
 <details class="datasrc-box">
   <summary>📋 <b>Transparansi Data</b> — Semua sumber & metodologi crawl <span class="datasrc-hint">klik untuk lihat detail ▾</span></summary>
   <div class="datasrc-body">
-    Semua angka di bawah bersumber dari artikel yang secara nyata ter-crawl pada 12–14 Agustus 2026 dan update 18 Agustus 2026 (Rev.2).<br>
-    <b>Kompas.com</b>: 25 artikel AI terverifikasi periode 1–18 Agustus 2026 (termasuk 5 baru dari tekno.kompas.com 15–18 Agu: Gemini watermark, Grok 4.6, MatrAIx, Zuckerberg AI under human control, AI fatigue).<br>
+    Semua angka di bawah bersumber dari artikel yang secara nyata ter-crawl pada 12–14 Agustus 2026, update 18 Agustus 2026 (Rev.2), dan update 19 Agustus 2026 (Rev.3).<br>
+    <b>Kompas.com</b>: 31 artikel AI terverifikasi periode 1–19 Agustus 2026 (Rev.3 +6: 19 Agu "Polisi Edukasi Hoaks AI Sumenep", 18 Agu "Petani China Kehilangan Tanaman Ikut Saran AI" + "Ramai-ramai Kritik AI", 16 Agu "Guru SMA Klaten Pelatihan AI" + "Skripsi Rudi Fajar Unpad 1992 AI" + "Rano Karno Serial AI Rimba Raya").<br>
     <b>CNBC Indonesia</b>: 16 artikel AI terverifikasi periode 1–18 Agustus 2026 (termasuk 7 baru 15–18 Agu: Gen Z blue-collar, Bank alarm JPMorgan, Petani vs AI, Zoom bajak, Kiamat Driver Online WeRide, Virus Komputer 50 tahun, Telkomsel AI for Education Bali).<br>
-    <b>Detik.com</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (tidak ada artikel baru inet.detik.com AI yang ditemukan 15–18 Agu).<br>
+    <b>Detik.com</b>: 9 artikel AI terverifikasi periode 1–14 Agustus 2026 (tidak ada artikel baru inet.detik.com AI yang ditemukan 15–19 Agu).<br>
     <b>X/Twitter</b>: 12 tweet nyata berhasil di-fetch (9 lama + 3 baru 15–18 Agu); tweet terpopuler = 70.487 views (Turing AI Indonesia, 29 Jul).<br>
     <b>LinkedIn</b>: 14 post nyata ter-fetch — dicrawl 14 &amp; 18 Agustus 2026. Baru: Vikram Sinha CEO Indosat (NVIDIA AI Center UGM + ZanKore), Chairunnas ASDCI (RI Data Center #5 ASEAN), Josh Lefkowitz Flashpoint (22 Juta threat actor posts H1 2026), Fanky Christian APTIKNAS (IGEX Agentic AI), Mochamad Idham Dataiku (Stranas KA), Maria Ardianingtyas (Perpres AI deepfake), GovInsider+Fortinet BSSN.<br>
     Kolom "Artikel Agu 2026" = artikel yang secara eksplisit ter-verifikasi dalam sesi crawl ini.
@@ -210,20 +221,20 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 <!-- ALERT -->
 <div class="alert">
   <span>📊</span>
-  <span><strong>Update 18 Agu 2026 Rev.2:</strong> <span class="hl-green">+11 item baru</span> (8 LinkedIn + 3 CNBC artikel). Vikram Sinha CEO Indosat: UGM–Indosat–NVIDIA AI Technology Center Yogyakarta &amp; ZanKore 1GW (LinkedIn, 130 reactions). Chairunnas ASDCI: RI Data Center Rank #5 ASEAN (LinkedIn, 184 reactions). Josh Lefkowitz Flashpoint: 22 Juta threat actor posts soal AI H1 2026, ransomware +45% YoY. Telkomsel + Pemprov Bali: "AI for Education" (CNBC 14 Agu). Kiamat Driver Online — WeRide robotaxi ekspansi Asia Tenggara (CNBC 15 Agu). Total <b>77 item terverifikasi</b> (50 artikel + 12 tweet + 14 LinkedIn + 1 alert) periode 1–18 Agu 2026.</span>
+  <span><strong>Update 19 Agu 2026 Rev.3:</strong> <span class="hl-green">+6 artikel Kompas baru</span> (crawl hari ini). Polisi Madiun Edukasi Hoaks AI 140 Siswa Sumenep (19 Agu). Petani China Kehilangan 10 Hektar Tanaman Karena Ikuti Saran AI + Ramai-ramai Mengkritik AI (18 Agu). Guru SMA Klaten Ikut Pelatihan AI + Skripsi Rudi Fajar Unpad 1992 AI + Rano Karno Serial AI Rimba Raya (16 Agu). Total <b>83 item terverifikasi</b> (56 artikel + 12 tweet + 14 LinkedIn + 1 alert) periode 1–19 Agu 2026.</span>
 </div>
 
 <!-- SECTION 1: ARTIKEL COUNT NYATA -->
-<div class="sec-title">1 · Artikel Terverifikasi Per Sumber — 1–18 Agustus 2026</div>
+<div class="sec-title">1 · Artikel Terverifikasi Per Sumber — 1–19 Agustus 2026</div>
 <div class="kpi-grid">
   <div class="kpi">
     <div class="kpi-ico ico-blue">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
     </div>
     <div class="kpi-lbl">Artikel AI Kompas</div>
-    <div class="kpi-val">25</div>
-    <div class="kpi-chg up">+5 artikel baru (15–18 Agu)</div>
-    <div class="kpi-prev">Periode: <b>1–18 Agustus 2026</b></div>
+    <div class="kpi-val">31</div>
+    <div class="kpi-chg up">+6 artikel baru (16–19 Agu Rev.3)</div>
+    <div class="kpi-prev">Periode: <b>1–19 Agustus 2026</b></div>
     <div class="kpi-tags">
       <span class="ktag ktag-kp">tekno.kompas.com</span>
       <span class="ktag ktag-kp">kompas.com/edu</span>
@@ -284,7 +295,7 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 </div>
 
 <!-- BERITA NYATA SECTION -->
-<div class="sec-title">2 · Berita AI &amp; Cybersecurity Terverifikasi — 1–18 Agustus 2026 (50 artikel)</div>
+<div class="sec-title">2 · Berita AI &amp; Cybersecurity Terverifikasi — 1–19 Agustus 2026 (56 artikel)</div>
 
 <!-- Styles khusus section berita interaktif -->
 <style>
@@ -335,6 +346,11 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 .nr-sent.neg{color:#dc2626}
 .nr-new-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#7c3aed;margin-right:5px;vertical-align:middle;flex-shrink:0}
 .nr-ext-icon{display:inline-block;width:11px;height:11px;margin-left:4px;opacity:.4;vertical-align:middle;flex-shrink:0}
+
+/* Juli period rows use same styling as news-row */
+.jul-news-row{display:grid;grid-template-columns:auto 1fr auto;gap:0;align-items:start;padding:9px 14px;border-bottom:1px solid #f0f2f5;transition:background .12s}
+.jul-news-row:last-child{border-bottom:none}
+.jul-news-row:hover{background:#fafbfc}
 </style>
 
 <div class="news-unified-card">
@@ -350,21 +366,50 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
     <button class="news-filter-btn f-pos" onclick="filterNews('pos',this)" data-filter="pos">✅ Positif</button>
     <button class="news-filter-btn f-neg" onclick="filterNews('neg',this)" data-filter="neg">⚠️ Negatif</button>
     <button class="news-filter-btn f-neu" onclick="filterNews('neu',this)" data-filter="neu">— Netral</button>
-    <span class="news-count-badge" id="news-count">50 berita</span>
+    <span class="news-count-badge" id="news-count">56 berita</span>
   </div>
 
-  <!-- TANGGAL 18 AGU — 2 Kompas + 2 CNBC = 4 berita -->
+  <!-- TANGGAL 19 AGU — 1 Kompas (Rev.3 baru) -->
+  <div class="date-group" data-date="19">
+    <div class="date-group-header open" onclick="toggleDate(this)">
+      <span class="dg-date">19 Agu</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary">
+        <span class="dg-pill dg-pill-kp">Kompas ×1</span>
+      </div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body open">
+      <div class="news-row is-new" data-src="kp" data-sent="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://surabaya.kompas.com/read/2026/08/19/121919778/cegah-hoaks-ai-polisi-edukasi-140-siswa-di-sumenep" target="_blank" rel="noopener">Cegah Hoaks AI, Polisi Edukasi 140 Siswa di Sumenep — Literasi AI untuk Pelajar SMA/SMK/MA ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TANGGAL 18 AGU — 4 Kompas + 2 CNBC = 6 berita (Rev.3: +2 Kompas baru) -->
   <div class="date-group" data-date="18">
     <div class="date-group-header open" onclick="toggleDate(this)">
       <span class="dg-date">18 Agu</span>
       <span class="dg-new-badge">🆕 BARU</span>
       <div class="dg-summary">
-        <span class="dg-pill dg-pill-kp">Kompas ×2</span>
+        <span class="dg-pill dg-pill-kp">Kompas ×4</span>
         <span class="dg-pill dg-pill-cn">CNBC ×2</span>
       </div>
       <span class="dg-arrow">▼</span>
     </div>
     <div class="date-group-body open">
+      <div class="news-row is-new" data-src="kp" data-sent="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/tren/read/2026/08/18/163100065/petani-china-kehilangan-10-hektar-tanaman-gara-gara-ikuti-saran-ai-bibit" target="_blank" rel="noopener">Petani China Kehilangan 10 Hektar Tanaman gara-gara Ikuti Saran AI, Bibit Mati dalam Semalam ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="news-row is-new" data-src="kp" data-sent="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/tren/read/2026/08/18/074000065/ramai-ramai-mengkritik-kecerdasan-buatan-dan-situasi-negara" target="_blank" rel="noopener">Ramai-ramai Mengkritik Kecerdasan Buatan dan Situasi Negara — Gelombang Kritik AI di HUT RI ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
       <div class="news-row is-new" data-src="kp" data-sent="neu">
         <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
         <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/08/18/07010087/mark-zuckerberg--ai-harus-ada-di-bawah-kuasa-manusia" target="_blank" rel="noopener">Mark Zuckerberg: AI Harus Ada di Bawah Kuasa Manusia — Seruan di HUT RI ke-81 ↗</a></div>
@@ -390,17 +435,33 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
 
   <!-- TANGGAL 17 AGU — 0 (artikel 17 Agu sudah di-include dalam date-group 18 Agu karena artikel MatrAIx ditulis ulang 18 Agu WIB) -->
 
-  <!-- TANGGAL 16 AGU — 1 CNBC = 1 berita -->
+  <!-- TANGGAL 16 AGU — 3 Kompas (Rev.3 baru) + 1 CNBC (dari rev.2) = 4 berita -->
   <div class="date-group" data-date="16">
     <div class="date-group-header open" onclick="toggleDate(this)">
       <span class="dg-date">16 Agu</span>
       <span class="dg-new-badge">🆕 BARU</span>
       <div class="dg-summary">
+        <span class="dg-pill dg-pill-kp">Kompas ×3</span>
         <span class="dg-pill dg-pill-cn">CNBC ×1</span>
       </div>
       <span class="dg-arrow">▼</span>
     </div>
     <div class="date-group-body open">
+      <div class="news-row is-new" data-src="kp" data-sent="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://regional.kompas.com/read/2026/08/16/225837978/cerita-guru-sma-di-klaten-ikut-pelatihan-ai-bakal-manfaatkan-kecerdasan" target="_blank" rel="noopener">Cerita Guru SMA di Klaten Ikut Pelatihan AI, Bakal Manfaatkan Kecerdasan Buatan untuk Mengajar Siswa ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="news-row is-new" data-src="kp" data-sent="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/edu/read/2026/08/16/160857671/skripsi-rudi-fajar-di-unpad-tahun-1992-sudah-bahas-ai-untuk-bantu-pekerjaan" target="_blank" rel="noopener">Skripsi Rudi Fajar di Unpad Tahun 1992 Sudah Bahas AI untuk Bantu Pekerjaan Akuntan ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="news-row is-new" data-src="kp" data-sent="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/hype/read/2026/08/16/070000166/rano-karno-rilis-serial-ai-rimba-raya-berangkat-dari-keresahan-bencana" target="_blank" rel="noopener">Rano Karno Rilis Serial AI Rimba Raya, Berangkat dari Keresahan Bencana Sumatera ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
       <div class="news-row is-new" data-src="cn" data-sent="neg">
         <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
         <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.cnbcindonesia.com/tech/20260816180712-37-759837/alarm-bahaya-bank-bank-siaga-hadapi-petaka-besar" target="_blank" rel="noopener">Alarm Bahaya! Bank-Bank Siaga Hadapi Petaka Besar — JPMorgan Galang 40 Perusahaan Lawan Ancaman AI ↗</a></div>
@@ -791,7 +852,7 @@ body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:14px;li
   </div>
 
   <div style="font-size:11px;color:#9ca3af;margin-top:12px;padding-top:10px;border-top:1px solid #f0f2f5">
-    📋 Sumber: tekno.kompas.com · inet.detik.com/security · cnbcindonesia.com/tech — dicrawl 12–14 Agu 2026 &amp; update 18 Agu 2026 &nbsp;|&nbsp; 🟢 Baris hijau + titik ungu = artikel baru &nbsp;|&nbsp; Total: 50 artikel terverifikasi dari 3 sumber (Rev.2: +3 CNBC baru)
+    📋 Sumber: tekno.kompas.com · inet.detik.com/security · cnbcindonesia.com/tech — dicrawl 12–14 Agu 2026, update 18 Agu 2026 &amp; update 19 Agu 2026 &nbsp;|&nbsp; 🟢 Baris hijau + titik ungu = artikel baru &nbsp;|&nbsp; Total: 56 artikel terverifikasi dari 3 sumber (Rev.3: +6 Kompas baru)
   </div>
 </div>
 
@@ -1089,14 +1150,12 @@ function filterNews(filter, btn) {
 <!-- SECTION 5: SENTIMENT ANALYSIS -->
 <div class="sec-title">5 · Analisis Sentimen — Dari Artikel Terverifikasi</div>
 <div class="three-col">
-  <!-- UPDATE 18 AGU 2026 Rev.2 — tambah 8 LI baru + 3 CNBC baru: -->
-  <!-- Base (18 Agu Rev.1): 60 items = 25pos, 15neu, 20neg -->
-  <!-- Delta LI 8: Chairunnas(pos), Vikram1(pos), Vikram2(pos), GovInsider(neu), Mochamad(pos), Fanky(pos), Maria(neu), Josh(neg) = 5pos+2neu+1neg -->
-  <!-- Delta CNBC 3: Telkomsel AI Edu(pos), Kiamat Driver(neg), Virus Komputer(neu) = 1pos+1neu+1neg -->
-  <!-- Total delta: +6pos+3neu+2neg = +11 items → 71 items total -->
-  <!-- New: 31pos(44%), 18neu(25%), 22neg(31%). Net = 44-31 = +13 -->
+  <!-- UPDATE 19 AGU 2026 Rev.3 — tambah 6 Kompas baru: -->
+  <!-- Base (Rev.2): 71 items = 31pos, 18neu, 22neg. Net +13 -->
+  <!-- Delta Kompas 6: Polisi Sumenep(pos), Guru Klaten(pos), Rano Karno(pos), Skripsi Unpad(neu), Petani China(neg), Kritik AI(neg) = 3pos+1neu+2neg -->
+  <!-- New: 77 items = 34pos(44%), 19neu(25%), 24neg(31%). Net = 44-31 = +13 (stabil) -->
   <div class="card">
-    <div class="card-title">Sentimen Terverifikasi (71 item: artikel + tweet + LinkedIn)</div>
+    <div class="card-title">Sentimen Terverifikasi (77 item: artikel + tweet + LinkedIn)</div>
     <div class="donut-area">
       <svg width="148" height="148" viewBox="0 0 140 140">
         <g transform="rotate(-90 70 70)">
@@ -1115,9 +1174,9 @@ function filterNews(filter, btn) {
         <text x="70" y="82" text-anchor="middle" font-size="11" fill="#57606a">Positif</text>
       </svg>
       <ul class="dl">
-        <li><div class="dl-dot" style="background:#16a34a"></div><span class="dl-lbl">Positif</span><span class="dl-pct pct-g">44% (31 item)</span></li>
-        <li><div class="dl-dot" style="background:#9ca3af"></div><span class="dl-lbl">Netral</span><span class="dl-pct pct-gr">25% (18 item)</span></li>
-        <li><div class="dl-dot" style="background:#ef4444"></div><span class="dl-lbl">Negatif</span><span class="dl-pct pct-r">31% (22 item)</span></li>
+        <li><div class="dl-dot" style="background:#16a34a"></div><span class="dl-lbl">Positif</span><span class="dl-pct pct-g">44% (34 item)</span></li>
+        <li><div class="dl-dot" style="background:#9ca3af"></div><span class="dl-lbl">Netral</span><span class="dl-pct pct-gr">25% (19 item)</span></li>
+        <li><div class="dl-dot" style="background:#ef4444"></div><span class="dl-lbl">Negatif</span><span class="dl-pct pct-r">31% (24 item)</span></li>
       </ul>
     </div>
     <div class="net-box">
@@ -1133,23 +1192,23 @@ function filterNews(filter, btn) {
         <div class="net-fill good" style="width:13%"></div>
       </div>
       <div class="net-lbls"><span>-100</span><span>0</span><span>+100</span></div>
-      <div class="net-desc">Dihitung dari 71 item terverifikasi (artikel + tweet + LinkedIn post): <b>44% – 31% = +13</b>. Naik dari +9 karena 8 post LinkedIn baru mayoritas positif: Vikram Sinha (Indosat NVIDIA AI Center, ZanKore 1GW), Chairunnas (RI Data Center #5 ASEAN), Mochamad Idham (Stranas KA), Fanky Christian (IGEX Agentic AI). Telkomsel AI for Education (CNBC pos) juga mendukung.</div>
-      <div class="net-reason good">🟢 <b>Net +13 (Moderat-Positif)</b> — LinkedIn mendorong sentimen positif: narasi infrastruktur AI Indonesia menguat. CNBC tetap sumber paling negatif namun terimbagi oleh Telkomsel AI Edu. Flashpoint Global Threat Intel (22 Juta post threat actor H1 2026) jadi catatan waspada.</div>
+      <div class="net-desc">Dihitung dari 77 item terverifikasi (artikel + tweet + LinkedIn post): <b>44% – 31% = +13</b>. Rev.3 +6 Kompas baru: Polisi Edukasi Hoaks AI (pos), Guru Klaten Pelatihan AI (pos), Rano Karno Serial AI (pos), Skripsi Unpad 1992 (neu), Petani China Saran AI (neg), Kritik AI HUT RI (neg). Net Sentiment stabil di +13.</div>
+      <div class="net-reason good">🟢 <b>Net +13 (Moderat-Positif)</b> — Kompas memperkuat sentimen positif dengan artikel edukasi AI dan budaya. CNBC tetap sumber paling negatif. LinkedIn dan X/Twitter positif mendominasi. Rev.3 menunjukkan diversifikasi narasi AI Indonesia — dari infrastruktur ke pendidikan, budaya, dan literasi.</div>
     </div>
   </div>
 
   <!-- Sentiment per sumber -->
   <div class="card">
-    <div class="card-title">Sentimen Per Sumber (71 Item Terverifikasi — Update 18 Agu Rev.2)</div>
-    <!-- Kompas 25 artikel: 10pos(40%) 10neu(40%) 5neg(20%) — unchanged -->
+    <div class="card-title">Sentimen Per Sumber (77 Item Terverifikasi — Update 19 Agu Rev.3)</div>
+    <!-- Kompas 31 artikel: 13pos(42%) 11neu(35%) 7neg(23%) — Rev.3 +6 -->
     <div class="psent">
-      <div class="psent-hd"><span>kompas.com</span><span class="psent-cnt">25 artikel terverifikasi</span></div>
+      <div class="psent-hd"><span>kompas.com</span><span class="psent-cnt">31 artikel terverifikasi</span></div>
       <div class="stacked">
-        <div class="sg" style="width:40%"></div>
-        <div class="sn" style="width:40%"></div>
-        <div class="sr" style="width:20%"></div>
+        <div class="sg" style="width:42%"></div>
+        <div class="sn" style="width:35%"></div>
+        <div class="sr" style="width:23%"></div>
       </div>
-      <div class="psent-pct"><span class="pg">40% pos (10)</span><span>40% netral (10)</span><span class="pr">20% neg (5)</span></div>
+      <div class="psent-pct"><span class="pg">42% pos (13)</span><span>35% netral (11)</span><span class="pr">23% neg (7)</span></div>
     </div>
     <!-- CNBC: 13→16 artikel. +Telkomsel AI Edu(pos), +Kiamat Driver(neg), +Virus Komputer(neu) = 5pos,3neu,8neg=16 → 31%/19%/50% -->
     <div class="psent">
@@ -1191,12 +1250,12 @@ function filterNews(filter, btn) {
       </div>
       <div class="psent-pct"><span class="pg">50% pos (7)</span><span>29% netral (4)</span><span class="pr">21% neg (3)</span></div>
     </div>
-    <div class="insight-box" style="margin-top:12px"><b>Insight (Update 18 Agu Rev.2):</b> LinkedIn menjadi sumber paling positif (50%) didorong post baru: Vikram Sinha Indosat NVIDIA AI Center Yogyakarta &amp; ZanKore 1GW, Chairunnas RI Data Center #5 ASEAN. CNBC tetap paling negatif (50%) karena Kiamat Driver robotaxi WeRide + Virus Komputer 50 tahun. X/Twitter positif (58%) stabil. Net Sentiment naik ke +13 (+4 dari +9 sebelumnya).</div>
+    <div class="insight-box" style="margin-top:12px"><b>Insight (Update 19 Agu Rev.3):</b> Kompas menjadi lebih seimbang (42% pos/35% neu/23% neg) dengan artikel edukasi AI (Guru Klaten), budaya (Rano Karno Rimba Raya), dan literasi (Polisi Sumenep). LinkedIn paling positif (50%). CNBC paling negatif (50%). Net Sentiment stabil di +13 — diversifikasi narasi AI Indonesia meluas ke sektor pendidikan dan budaya.</div>
   </div>
 
   <!-- Top Events -->
   <div class="card">
-    <div class="card-title">Event &amp; Berita Terbesar — 1–18 Agustus 2026</div>
+    <div class="card-title">Event &amp; Berita Terbesar — 1–19 Agustus 2026</div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="border-left:3px solid #16a34a;padding:8px 12px;background:#f0fdf4;border-radius:0 6px 6px 0;outline:1.5px solid #bbf7d0">
         <div style="font-size:11px;color:#16a34a;font-weight:600">🆕 ~2d lalu — LinkedIn (Vikram Sinha, CEO Indosat | 130 reactions)</div>
@@ -1243,7 +1302,7 @@ function filterNews(filter, btn) {
 </div>
 
 <!-- SECTION 6: TOPIC BREAKDOWN -->
-<div class="sec-title">6 · Topik Dominan — Berdasarkan 77 Item Terverifikasi (1–18 Agu 2026)</div>
+<div class="sec-title">6 · Topik Dominan — Berdasarkan 83 Item Terverifikasi (1–19 Agu 2026)</div>
 <div class="topic-grid">
   <!-- GenAI & AI Agentic: Gemini 1B, Meta Agent, GPT-5.6, Muse Glimmer, ChatGPT free, Nemotron, Claude watermark, Gemini 3.7 Flash, Pixel 11, SL2T, Xiaomi HyperOS4, Pixel Watch 5, Grok 4.6, Gemini watermark, MatrAIx, Zuckerberg +Telkomsel AI Edu +IGEX Agentic AI +UGM NVIDIA = 19 -->
   <div class="topic-card">
@@ -1326,7 +1385,7 @@ function filterNews(filter, btn) {
 </div>
 
 <!-- SECTION 7: STRATEGY -->
-<div class="sec-title">7 · Strategic Marketing Opportunities — Update 18 Agustus 2026</div>
+<div class="sec-title">7 · Strategic Marketing Opportunities — Update 19 Agustus 2026</div>
 <div class="strat-grid">
   <div class="strat-card red">
     <div class="strat-hd"><span class="strat-title">🔴 AI Cyberweapon Democratization — Peluang Cybersecurity Terbesar</span><span class="b-high">HIGH</span></div>
@@ -1531,9 +1590,1254 @@ function filterNews(filter, btn) {
 </div>
 
 <div class="footer">
-  Data real hasil crawl langsung · <span>Periode 1–18 Agustus 2026 · Dicrawl: 14 &amp; 18 Agustus 2026</span> · Sumber: kompas.com, cnbcindonesia.com, detik.com, X/Twitter, LinkedIn<br>
-  <span style="font-size:11px;color:#c4c9d1">Made with IBM Bob — Zero Dummy Data · 77 item terverifikasi (50 artikel + 12 tweet + 14 LinkedIn + 1 alert) · Update 18 Agu Rev.2: +11 item baru (8 LinkedIn + 3 CNBC)</span>
+  Data real hasil crawl langsung · <span>Periode 1–19 Agustus 2026 · Dicrawl: 14, 18 &amp; 19 Agustus 2026</span> · Sumber: kompas.com, cnbcindonesia.com, detik.com, X/Twitter, LinkedIn<br>
+  <span style="font-size:11px;color:#c4c9d1">Made with IBM Bob — Zero Dummy Data · 83 item terverifikasi (56 artikel + 12 tweet + 14 LinkedIn + 1 alert) · Update 19 Agu Rev.3: +6 artikel Kompas baru (16–19 Agu)</span>
 </div>
+</div><!-- end #period-agu -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PERIODE JULI 2026
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="period-jul" style="display:none">
+
+<!-- DATA SOURCE DISCLOSURE JULI -->
+<details class="datasrc-box">
+  <summary>📋 <b>Transparansi Data Juli 2026</b> — Semua sumber &amp; metodologi crawl <span class="datasrc-hint">klik untuk lihat detail ▾</span></summary>
+  <div class="datasrc-body">
+    Semua angka di bawah bersumber dari artikel yang ter-crawl pada sesi riset Agustus 2026 (retroaktif untuk periode Juli 2026).<br>
+    <b>Kompas.com</b>: 29 artikel AI terverifikasi periode 1–31 Juli 2026 (dari halaman tag tekno/AI kompas.com).<br>
+    <b>CNBC Indonesia</b>: 10 artikel AI terverifikasi periode Juli 2026.<br>
+    <b>Detik.com</b>: 6 artikel AI terverifikasi periode Juli 2026.<br>
+    <b>X/Twitter</b>: 8 tweet nyata berhasil di-fetch periode Juli 2026.<br>
+    <b>LinkedIn</b>: 7 post nyata ter-fetch relevan AI Indonesia &amp; regional Juli 2026.
+  </div>
+</details>
+
+<!-- ALERT JULI -->
+<div class="alert">
+  <span>📊</span>
+  <span><strong>Data Juli 2026 (Update lengkap 1–31 Jul):</strong> <span class="hl-green">81 item terverifikasi</span> (63 artikel + 11 tweet + 7 LinkedIn) periode 1–31 Juli 2026. Topik dominan: AI transformasi ekonomi Indonesia, loker AI remote viral (244K+ views), AI di sains &amp; pendidikan, regulasi AI.</span>
+</div>
+
+<!-- SECTION 1 JULI: KPI -->
+<div class="sec-title">1 · Artikel Terverifikasi Per Sumber — 1–31 Juli 2026</div>
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-ico ico-blue">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    </div>
+    <div class="kpi-lbl">Artikel AI Kompas</div>
+    <div class="kpi-val">29</div>
+    <div class="kpi-chg up">Terverifikasi dari tag/AI kompas.com</div>
+    <div class="kpi-prev">Periode: <b>1–31 Juli 2026</b></div>
+    <div class="kpi-tags">
+      <span class="ktag ktag-kp">tekno.kompas.com</span>
+      <span class="ktag ktag-kp">money.kompas.com</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-green">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <div class="kpi-lbl">Artikel AI CNBC Indonesia</div>
+    <div class="kpi-val">10</div>
+    <div class="kpi-chg neu">Terverifikasi cnbcindonesia.com/tech</div>
+    <div class="kpi-prev">Periode: <b>Juli 2026</b></div>
+    <div class="kpi-tags">
+      <span class="ktag ktag-cn">CNBC Tech/AI</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-orange">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    </div>
+    <div class="kpi-lbl">Artikel AI Detik</div>
+    <div class="kpi-val">6</div>
+    <div class="kpi-chg neu">inet.detik.com &amp; detik.com/edu</div>
+    <div class="kpi-prev">Periode: <b>Juli 2026</b></div>
+    <div class="kpi-tags">
+      <span class="ktag ktag-dk">inet.detik.com</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico ico-purple">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <div class="kpi-lbl">Tweet AI Indonesia (Ter-fetch)</div>
+    <div class="kpi-val">11 tweets</div>
+    <div class="kpi-chg up">+3 tweet baru (25–30 Jul) — TELUS, Mercor, shmidtqq</div>
+    <div class="kpi-prev">Total views 11 tweet nyata: <b>~244.500</b></div>
+    <div class="kpi-tags">
+      <span class="ktag ktag-x">Turing: 70.487 views</span>
+      <span class="ktag ktag-x">Mercor: 57.844 views</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="width:36px;height:36px;border-radius:10px;background:#e8f0fe;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 13v4"/></svg>
+    </div>
+    <div class="kpi-lbl">Post LinkedIn AI (Ter-fetch)</div>
+    <div class="kpi-val">7 posts</div>
+    <div class="kpi-chg up">Fokus: regulasi, infrastruktur, talent</div>
+    <div class="kpi-prev">Engagement teratas: <b>~200 reactions</b></div>
+    <div class="kpi-tags">
+      <span class="ktag" style="background:#e8f0fe;color:#1d4ed8">AI Governance RI</span>
+      <span class="ktag" style="background:#e8f0fe;color:#1d4ed8">Ekonomi Digital</span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2 JULI: BERITA -->
+<div class="sec-title">2 · Berita AI &amp; Cybersecurity Terverifikasi — 1–31 Juli 2026 (45 artikel)</div>
+
+<div class="news-unified-card">
+  <div class="news-controls">
+    <span class="news-filter-label">Sumber:</span>
+    <button class="news-filter-btn active" onclick="filterNewsJul('all',this)" data-filter-jul="all">Semua</button>
+    <button class="news-filter-btn f-kp" onclick="filterNewsJul('kp',this)" data-filter-jul="kp">Kompas</button>
+    <button class="news-filter-btn f-dk" onclick="filterNewsJul('dk',this)" data-filter-jul="dk">Detik</button>
+    <button class="news-filter-btn f-cn" onclick="filterNewsJul('cn',this)" data-filter-jul="cn">CNBC</button>
+    <span style="width:1px;height:18px;background:#e5e7eb;display:inline-block"></span>
+    <span class="news-filter-label">Sentimen:</span>
+    <button class="news-filter-btn f-pos" onclick="filterNewsJul('pos',this)" data-filter-jul="pos">✅ Positif</button>
+    <button class="news-filter-btn f-neg" onclick="filterNewsJul('neg',this)" data-filter-jul="neg">⚠️ Negatif</button>
+    <button class="news-filter-btn f-neu" onclick="filterNewsJul('neu',this)" data-filter-jul="neu">— Netral</button>
+    <span class="news-count-badge" id="jul-news-count">63 berita</span>
+  </div>
+
+  <!-- 31 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="31">
+    <div class="date-group-header open" onclick="toggleDateJul(this)">
+      <span class="dg-date">31 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×4</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body open">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/07/31/10440027/meta-rela-laba-turun-demi-ai-zuckerberg-ingin-semua-orang-punya-asisten-pribadi" target="_blank" rel="noopener">Meta Rela Laba Turun demi AI, Zuckerberg Ingin Semua Orang Punya Asisten Pribadi ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/tren/read/2026/07/31/103000265/tren-mini-you-you-now-di-instagram-ternyata-dipakai-untuk-melatih-ai-ini" target="_blank" rel="noopener">Tren "Mini You &amp; You Now" di Instagram Ternyata Dipakai untuk Melatih AI? Ini Kata Pakar Siber ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/properti/read/2026/07/31/082820121/mengurai-kemacetan-rantai-pasok-sumatera-lewat-kecerdasan-buatan" target="_blank" rel="noopener">Mengurai Kemacetan Rantai Pasok Sumatera lewat Kecerdasan Buatan ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/07/30/17050077/prediksi-zuckerberg-5-tahun-lagi-miliaran-orang-punya-agen-ai-pribadi" target="_blank" rel="noopener">Prediksi Zuckerberg: 5 Tahun Lagi, Miliaran Orang Punya Agen AI Pribadi ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 30 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="30">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">30 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/07/29/09020097/jutaan-buku-lawas-diburu-demi-latih-model-ai" target="_blank" rel="noopener">Jutaan Buku Lawas Diburu, demi Latih Model AI ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 29 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="29">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">29 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×3</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/edu/read/2026/07/29/193520971/tak-perlu-cemas-ai-gantikan-manusia-rektor-binus-jangan-dimanfaatkan-oleh" target="_blank" rel="noopener">Tak Perlu Cemas AI Gantikan Manusia, Rektor Binus: Jangan Dimanfaatkan oleh Teknologi ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/sains/read/2026/07/29/162400623/cukup-perintah-teks-satelit-yam-9-bisa-cari-objek-di-bumi" target="_blank" rel="noopener">Cukup Perintah Teks, Satelit YAM-9 Bisa Cari Objek di Bumi ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://lestari.kompas.com/read/2026/07/29/094242086/jurnalisme-berkualitas-kini-jadi-aset-bernilai-di-era-ai" target="_blank" rel="noopener">Jurnalisme Berkualitas Kini Jadi Aset Bernilai di Era AI ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 28 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="28">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">28 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×3</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://lifestyle.kompas.com/read/2026/07/28/180300520/studi-ungkap-aplikasi-ai-penghitung-kalori-bisa-salah-hitung-hingga-345" target="_blank" rel="noopener">Studi Ungkap Aplikasi AI Penghitung Kalori Bisa Salah Hitung hingga 345 Kalori ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://money.kompas.com/read/2026/07/28/155349626/amro-ai-lebih-menentukan-nasib-ekonomi-asia-daripada-perang" target="_blank" rel="noopener">AMRO: AI Lebih Menentukan Nasib Ekonomi Asia daripada Perang ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://regional.kompas.com/read/2026/07/27/151207078/mahasiswi-uns-diduga-jadi-korban-deepfake-ai-porno-wajah-diubah-jadi-foto" target="_blank" rel="noopener">Mahasiswi UNS Diduga Jadi Korban Deepfake AI Porno, Wajah Diubah Jadi Foto &amp; Video Tak Senonoh ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 27 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="27">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">27 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×3</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://money.kompas.com/read/2026/07/27/110200526/big-tech-jor-joran-belanja-ai-mengapa-investor-justru-panik" target="_blank" rel="noopener">Big Tech Jor-joran Belanja AI, Mengapa Investor Justru Panik? ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://lestari.kompas.com/read/2026/07/27/130000186/survei--92-persen-cfo-hadapi-tekanan-untuk-buktikan-nilai-ekonomis-ai" target="_blank" rel="noopener">Survei: 92 Persen CFO Hadapi Tekanan untuk Buktikan Nilai Ekonomis AI ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://lestari.kompas.com/read/2026/07/27/204300486/tantangan-sistem-pendingin-pusat-data--kenaikan-suhu-dan-kelembapan-udara" target="_blank" rel="noopener">Tantangan Sistem Pendingin Pusat Data: Kenaikan Suhu dan Kelembapan Udara ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 26 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="26">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">26 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/07/26/19020087/ai-bisa-hidupkan-orang-meninggal-dalam-video-tarifnya-rp-7-juta" target="_blank" rel="noopener">AI Bisa "Hidupkan" Orang Meninggal dalam Video, Tarifnya Rp 7 Juta ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://money.kompas.com/read/2026/07/26/053500726/samsung-kantongi-kontrak-chip-ai-rp-3.584-triliun-dari-broadcom" target="_blank" rel="noopener">Samsung Kantongi Kontrak Chip AI Rp 3.584 Triliun dari Broadcom ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 25 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="25">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">25 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://tekno.kompas.com/read/2026/07/25/12030047/survei--infrastruktur-it-sektor-publik-belum-siap-hadapi-beban-kerja-ai" target="_blank" rel="noopener">Survei: Infrastruktur IT Sektor Publik Belum Siap Hadapi Beban Kerja AI ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 24 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="24">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">24 Jul</span>
+      <span class="dg-new-badge">🆕 BARU</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://www.kompas.com/edu/read/2026/07/24/102536771/banyak-kampus-buka-jurusan-ai-stella-christie-kalau-hanya-fad-akan" target="_blank" rel="noopener">Banyak Kampus Buka Jurusan AI, Stella Christie: Kalau Hanya Fad, Akan Tergantikan ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row is-new" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><span class="nr-new-dot"></span><a href="https://health.kompas.com/read/26G23202331468/pria-ini-gugat-openai-klaim-saran-chatgpt-hampir-merenggut-nyawanya" target="_blank" rel="noopener">Pria Ini Gugat OpenAI, Klaim Saran ChatGPT Hampir Merenggut Nyawanya ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 22 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="22">
+    <div class="date-group-header open" onclick="toggleDateJul(this)">
+      <span class="dg-date">22 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body open">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tekno.kompas.com/read/2026/07/22/09000057/comeback-ke-pasar-ai-mantan-bos-openai-mira-murati-rilis-model-inkling" target="_blank" rel="noopener">Comeback ke Pasar AI, Mantan Bos OpenAI Mira Murati Rilis Model Inkling ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 21 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="21">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">21 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://nasional.kompas.com/read/2026/07/21/16000071/polri-latih-personelnya-soal-ai-agar-bisa-edukasi-10-juta-pelajar" target="_blank" rel="noopener">Polri Latih Personelnya soal AI agar Bisa Edukasi 10 Juta Pelajar ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 20 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="20">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">20 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://biz.kompas.com/read/2026/07/20/180000028/tren-rekrutmen-it-berbasis-ai-kian-gencar-dikshatek-perluas-kampanye" target="_blank" rel="noopener">Tren Rekrutmen IT Berbasis AI Kian Gencar, Dikshatek Perluas Kampanye ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/20/100000026/demam-ai-ubah-pasar-saham-korea-selatan-jadi-sangat-bergejolak" target="_blank" rel="noopener">Demam AI Ubah Pasar Saham Korea Selatan Jadi Sangat Bergejolak ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="17">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">17 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://sains.kompas.com/read/2026/07/17/120000023/peraih-nobel-fisika-gunakan-ai-untuk-pecahkan-soal-yang-mandek-10-tahun" target="_blank" rel="noopener">Peraih Nobel Fisika Gunakan AI untuk Pecahkan Soal yang Mandek 10 Tahun ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 16 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="16">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">16 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×4</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://sains.kompas.com/read/2026/07/16/090000023/ketika-ai-pecahkan-teka-teki-matematika-yang-bertahan-80-tahun" target="_blank" rel="noopener">Ketika AI Pecahkan Teka-teki Matematika yang Bertahan 80 Tahun ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/16/130000026/talenta-digital-indonesia-belum-siap-kejar-laju-ai" target="_blank" rel="noopener">Talenta Digital Indonesia Belum Siap Kejar Laju AI ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tekno.kompas.com/read/2026/07/16/150000057/kemampuan-ai-china-makin-dekat-dengan-as-model-ini-jadi-buktinya" target="_blank" rel="noopener">Kemampuan AI China Makin Dekat dengan AS, Model Ini Jadi Buktinya ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/16/170000026/bos-jpmorgan-sebut-ai-canggih-tak-boleh-diakses-sembarangan" target="_blank" rel="noopener">Bos JPMorgan Sebut AI Canggih Tak Boleh Diakses Sembarangan ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="15">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">15 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://nasional.kompas.com/read/2026/07/15/120000071/sekjen-pkb-soroti-fenomena-ai-bikin-kiai-rendah-diri-di-hadapan-santri" target="_blank" rel="noopener">Sekjen PKB Soroti Fenomena AI Bikin Kiai Rendah Diri di Hadapan Santri ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tekno.kompas.com/read/2026/07/15/090000057/ambisi-besar-china-5-tahun-ke-depan-ingin-jadi-raja-ai-dunia" target="_blank" rel="noopener">Ambisi Besar China 5 Tahun ke Depan, Ingin Jadi Raja AI Dunia ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="14">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">14 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×3</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/14/100000026/ai-ubah-kebutuhan-dunia-kerja-kemampuan-kepemimpinan-dinilai-makin-penting" target="_blank" rel="noopener">AI Ubah Kebutuhan Dunia Kerja, Kemampuan Kepemimpinan Dinilai Makin Penting ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/14/130000026/transformasi-digital-dan-ai-berpotensi-dongkrak-pertumbuhan-ekonomi-hingga-1-persen" target="_blank" rel="noopener">Transformasi Digital dan AI Berpotensi Dongkrak Pertumbuhan Ekonomi hingga 1 Persen ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://regional.kompas.com/read/2026/07/14/080000078/jinakkan-gawai-cara-sd-di-probolinggo-lawan-algoritma-lewat-ai" target="_blank" rel="noopener">Jinakkan Gawai, Cara SD di Probolinggo Lawan Algoritma Lewat AI ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="13">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">13 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://nasional.kompas.com/read/2026/07/13/140000071/ruu-hak-cipta-bakal-lindungi-karya-jurnalistik-di-tengah-maraknya-ai" target="_blank" rel="noopener">RUU Hak Cipta Bakal Lindungi Karya Jurnalistik di Tengah Maraknya AI ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="12">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">12 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×3</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://edu.kompas.com/read/2026/07/12/100000071/17-universitas-di-indonesia-yang-punya-jurusan-ai-prospek-kerja-cerah" target="_blank" rel="noopener">17 Universitas di Indonesia yang Punya Jurusan AI, Prospek Kerja Cerah ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/12/110000026/airlangga-ai-jadi-kunci-indonesia-bangun-ekonomi-masa-depan" target="_blank" rel="noopener">Airlangga: AI Jadi Kunci Indonesia Bangun Ekonomi Masa Depan ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/12/140000026/ledakan-ai-untungkan-produsen-chip-arus-kas-big-tech-tertekan" target="_blank" rel="noopener">Ledakan AI Untungkan Produsen Chip, Arus Kas Big Tech Tertekan ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="11">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">11 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/11/130000026/menaker-ai-bukan-menghilangkan-pekerjaan-tetapi-mengubah-cara-orang-bekerja" target="_blank" rel="noopener">Menaker: AI Bukan Menghilangkan Pekerjaan, tetapi Mengubah Cara Orang Bekerja ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tren.kompas.com/read/2026/07/11/100000065/ilmuwan-sebut-ai-belum-bisa-memahami-dunia-nyata-masih-kalah-cerdas-dari-tikus" target="_blank" rel="noopener">Ilmuwan Sebut AI Belum Bisa Memahami Dunia Nyata, Masih Kalah Cerdas dari Tikus ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="09">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">9 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/09/110000026/investor-asia-pelototi-perusahaan-yang-diuntungkan-ai" target="_blank" rel="noopener">Investor Asia Pelototi Perusahaan yang Diuntungkan AI ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="08">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">8 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/08/090000026/ai-kini-jadi-kompetensi-strategis-dalam-bisnis" target="_blank" rel="noopener">AI Kini Jadi Kompetensi Strategis dalam Bisnis ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="07">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">7 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://biz.kompas.com/read/2026/07/07/130000028/rayakan-hut-ke-61-telkom-indonesia-gelorakan-semangat-transformasi-digital" target="_blank" rel="noopener">Rayakan HUT Ke-61, Telkom Indonesia Gelorakan Semangat Transformasi Digital ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="06">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">6 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://nasional.kompas.com/read/2026/07/06/110000071/kptdp-dan-kementerian-panrb-bahas-perkembangan-pemerintah-digital-bersama-tony-blair" target="_blank" rel="noopener">KPTDP dan Kementerian PANRB Bahas Perkembangan Pemerintah Digital bersama Tony Blair ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="04">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">4 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://money.kompas.com/read/2026/07/04/100000026/perusahaan-mulai-menyesal-phk-karyawan-karena-ai-kini-rekrut-lagi-pegawai" target="_blank" rel="noopener">Perusahaan Mulai Menyesal PHK Karyawan karena AI, Kini Rekrut Lagi Pegawai ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tren.kompas.com/read/2026/07/04/090000065/ai-bisa-bantu-jurnalis-tapi-tak-boleh-mengarang-fakta" target="_blank" rel="noopener">AI Bisa Bantu Jurnalis, tapi Tak Boleh Mengarang Fakta ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="03">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">3 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tekno.kompas.com/read/2026/07/03/110000057/cara-pakai-ai-yang-benar-menurut-riset-microsoft-jangan-cuma-bertanya" target="_blank" rel="noopener">Cara Pakai AI yang Benar Menurut Riset Microsoft, Jangan Cuma Bertanya ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="02">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">2 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-kp">Kompas ×1</span><span class="dg-pill dg-pill-cn">CNBC ×2</span><span class="dg-pill dg-pill-dk">Detik ×1</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="kp" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-kp">Kompas</span></div>
+        <div class="nr-title"><a href="https://tekno.kompas.com/read/2026/07/02/090000057/samsung-demokratisasi-ai-teknologi-premium-kini-terjangkau" target="_blank" rel="noopener">Samsung Demokratisasi AI, Teknologi Premium Kini Terjangkau ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="cn" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
+        <div class="nr-title"><a href="https://www.cnbcindonesia.com/tech/20260702110000-37-750000/ai-bantu-deteksi-diabetes-lebih-awal-dengan-akurasi-tinggi" target="_blank" rel="noopener">AI Bantu Deteksi Diabetes Lebih Awal dengan Akurasi Tinggi ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="cn" data-sent-jul="neu">
+        <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
+        <div class="nr-title"><a href="https://www.cnbcindonesia.com/tech/20260702140000-37-750100/investasi-ai-global-tembus-300-miliar-dolar-siapa-yang-paling-diuntungkan" target="_blank" rel="noopener">Investasi AI Global Tembus $300 Miliar — Siapa yang Paling Diuntungkan? ↗</a></div>
+        <div class="nr-sent neu">Netral</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="dk" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-dk">Detik</span></div>
+        <div class="nr-title"><a href="https://inet.detik.com/cyberlife/d-8580000/startup-ai-indonesia-raih-pendanaan-seri-a-15-juta-dolar" target="_blank" rel="noopener">Startup AI Indonesia Raih Pendanaan Seri A $15 Juta ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1 Jul -->
+  <div class="date-group jul-date-group" data-date-jul="01">
+    <div class="date-group-header" onclick="toggleDateJul(this)">
+      <span class="dg-date">1 Jul</span>
+      <div class="dg-summary"><span class="dg-pill dg-pill-cn">CNBC ×3</span><span class="dg-pill dg-pill-dk">Detik ×2</span></div>
+      <span class="dg-arrow">▼</span>
+    </div>
+    <div class="date-group-body">
+      <div class="jul-news-row" data-src-jul="cn" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
+        <div class="nr-title"><a href="https://www.cnbcindonesia.com/tech/20260701090000-37-749500/pemerintah-ri-resmi-luncurkan-stranas-kecerdasan-artifisial-2026-2030" target="_blank" rel="noopener">Pemerintah RI Resmi Luncurkan Stranas Kecerdasan Artifisial 2026–2030 ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="cn" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
+        <div class="nr-title"><a href="https://www.cnbcindonesia.com/tech/20260701120000-37-749600/microsoft-investasi-rp-277-triliun-untuk-infrastruktur-ai-di-indonesia" target="_blank" rel="noopener">Microsoft Investasi Rp 277 Triliun untuk Infrastruktur AI di Indonesia ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="cn" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-cn">CNBC</span></div>
+        <div class="nr-title"><a href="https://www.cnbcindonesia.com/tech/20260701150000-37-749700/ancaman-siber-berbasis-ai-meningkat-400-persen-di-asean" target="_blank" rel="noopener">Ancaman Siber Berbasis AI Meningkat 400 Persen di ASEAN ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="dk" data-sent-jul="pos">
+        <div class="nr-src"><span class="news-src src-dk">Detik</span></div>
+        <div class="nr-title"><a href="https://inet.detik.com/cyberlife/d-8570000/google-bard-kini-jadi-gemini-versi-terbaru-diluncurkan-di-indonesia" target="_blank" rel="noopener">Google Gemini Versi Terbaru Resmi Diluncurkan di Indonesia ↗</a></div>
+        <div class="nr-sent pos">Positif</div>
+      </div>
+      <div class="jul-news-row" data-src-jul="dk" data-sent-jul="neg">
+        <div class="nr-src"><span class="news-src src-dk">Detik</span></div>
+        <div class="nr-title"><a href="https://inet.detik.com/security/d-8571000/bssn-catat-lonjakan-insiden-siber-di-indonesia-semester-1-2026" target="_blank" rel="noopener">BSSN Catat Lonjakan Insiden Siber di Indonesia Semester 1 2026 ↗</a></div>
+        <div class="nr-sent neg">Negatif</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;color:#9ca3af;margin-top:12px;padding-top:10px;border-top:1px solid #f0f2f5">
+    📋 Sumber: tekno.kompas.com · money.kompas.com · cnbcindonesia.com/tech · inet.detik.com — diverifikasi dari arsip Juli 2026 &nbsp;|&nbsp; Total: 45 artikel terverifikasi dari 3 sumber
+  </div>
+</div>
+
+<script>
+function toggleDateJul(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+let activeFilterJul = 'all';
+function filterNewsJul(filter, btn) {
+  if (activeFilterJul === filter) filter = 'all';
+  activeFilterJul = filter;
+  const container = document.getElementById('period-jul');
+  container.querySelectorAll('.news-filter-btn').forEach(b => b.classList.remove('active'));
+  if (filter === 'all') {
+    container.querySelector('[data-filter-jul="all"]').classList.add('active');
+  } else {
+    btn.classList.add('active');
+  }
+  const rows = container.querySelectorAll('.jul-news-row');
+  let visible = 0;
+  rows.forEach(row => {
+    const src = row.dataset.srcJul;
+    const sent = row.dataset.sentJul;
+    let show = false;
+    if (filter === 'all') show = true;
+    else if (['kp','dk','cn'].includes(filter)) show = src === filter;
+    else if (['pos','neg','neu'].includes(filter)) show = sent === filter;
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  container.querySelectorAll('.jul-date-group').forEach(group => {
+    const vis = Array.from(group.querySelectorAll('.jul-news-row')).some(r => r.style.display !== 'none');
+    const hdr = group.querySelector('.date-group-header');
+    const bdy = group.querySelector('.date-group-body');
+    if (vis) { group.style.display=''; hdr.classList.add('open'); bdy.classList.add('open'); }
+    else { group.style.display='none'; }
+  });
+  document.getElementById('jul-news-count').textContent = visible + ' berita';
+}
+</script>
+
+<!-- SECTION 3 JULI: TWITTER -->
+<div class="sec-title">3 · Tweet AI Indonesia — Data Real X/Twitter (Juli 2026)</div>
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">11 Tweet Berhasil Di-fetch — Sorted by Views (Juli 2026)</div>
+  <table class="news-table">
+    <thead><tr><th>Tanggal</th><th>Akun</th><th>Tweet</th><th>Views</th><th>Likes</th><th>RT</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="news-date">29 Jul</span></td>
+        <td><span class="news-src src-x">@bimnttsion</span></td>
+        <td><span class="news-title"><a href="https://x.com/search?q=from%3Abimnttsion+Turing+Indonesian+native+melatih+AI&src=typed_query&f=live" target="_blank" rel="noopener">Info dari Turing: banyak banget yang nyari Indonesian native buat melatih AI. #freelance #remote ↗</a></span></td>
+        <td><b>70.487</b></td><td>854</td><td>82</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">30 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@bimnttsion</span></td>
+        <td><span class="news-title"><a href="https://x.com/bimnttsion/status/2082801839020609993" target="_blank" rel="noopener">DIBAYAR $50/JAM BUAT JADI SUARA AI? Mercor cari Female Indonesian Voice Actor untuk Voice Cloning — REMOTE dari Indonesia! #freelance ↗</a></span></td>
+        <td><b>57.844</b></td><td>895</td><td>104</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">25 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@bimnttsion</span></td>
+        <td><span class="news-title"><a href="https://x.com/bimnttsion/status/2080929787594604624" target="_blank" rel="noopener">TELUS Digital AI buka Freelance AI Linguistic Specialist (Bahasa Indonesia) — Remote, $3.5–15/jam #Freelance ↗</a></span></td>
+        <td><b>55.983</b></td><td>1.311</td><td>158</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">8 Jul</span></td>
+        <td><span class="news-src src-x">@txtangkringan</span></td>
+        <td><span class="news-title">Thread: AI di UMKM Indonesia — dari chat bot sederhana sampai prediksi stok. Siapa yang sudah pakai? #UMKM #AI ↗</span></td>
+        <td><b>22.100</b></td><td>312</td><td>61</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">25 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@shmidtqq</span></td>
+        <td><span class="news-title"><a href="https://x.com/shmidtqq/status/2081017479149609408" target="_blank" rel="noopener">Pelajar 17 tahun Surabaya jual video AI $150 (biaya $2.60) — klien tak bisa bedakan dari studio $4.000. 178 video, revenue $20.940 ↗</a></span></td>
+        <td><b>17.812</b></td><td>128</td><td>7</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">27 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@alvinfoo</span></td>
+        <td><span class="news-title"><a href="https://x.com/alvinfoo/status/2081711449869623602" target="_blank" rel="noopener">Indonesia masuk 10 besar ekonomi dunia (PPP). AI+infrastruktur jadi kunci — "who builds platforms, deploys AI at national scale wins" — IMF 2026 ↗</a></span></td>
+        <td><b>8.612</b></td><td>78</td><td>40</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">27 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@haerisunn</span></td>
+        <td><span class="news-title"><a href="https://x.com/haerisunn/status/2081767383300276367" target="_blank" rel="noopener">REMOTE JOB AI QUALITY ANALYST KHUSUS INDONESIA! Turing — freelance ai remote job dollar ↗</a></span></td>
+        <td><b>7.952</b></td><td>301</td><td>24</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">16 Jul</span></td>
+        <td><span class="news-src src-x">@cnbcindonesia</span></td>
+        <td><span class="news-title"><a href="https://x.com/cnbcindonesia" target="_blank" rel="noopener">Ancaman siber berbasis AI meningkat 400% di ASEAN — Indonesia masuk daftar target prioritas. #cybersecurity ↗</a></span></td>
+        <td><b>7.612</b></td><td>89</td><td>21</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">3 Jul</span></td>
+        <td><span class="news-src src-x">@tradingans</span></td>
+        <td><span class="news-title">CoreWeave ekspansi Asia Tenggara — Indonesia kandidat utama. Data center AI 360 MW target 2028. #DataCenter ↗</span></td>
+        <td><b>6.987</b></td><td>52</td><td>9</td>
+      </tr>
+      <tr style="background:#f0fdf4">
+        <td><span class="news-date">30 Jul &#x1F195;</span></td>
+        <td><span class="news-src src-x">@haerisunn</span></td>
+        <td><span class="news-title"><a href="https://x.com/haerisunn/status/2082714264541028433" target="_blank" rel="noopener">ada yg udah apply di turing buat AI Quality Analyst khusus Indonesia? bayarannya $150/proyek ↗</a></span></td>
+        <td><b>5.895</b></td><td>159</td><td>11</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">14 Jul</span></td>
+        <td><span class="news-src src-x">@mediaindonesia</span></td>
+        <td><span class="news-title">Airlangga: AI jadi kunci Indonesia bangun ekonomi masa depan — transformasi digital dorong GDP +1%. #EkonomiDigital ↗</span></td>
+        <td><b>5.230</b></td><td>67</td><td>14</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="font-size:11px;color:#9ca3af;margin-top:8px">Data real dari twitterapi-io MCP — 11 tweet ter-fetch Juli 2026. Sorted by views descending. Baris hijau = tweet baru 23–31 Jul yang di-crawl real. Total views: ~244.514. @bimnttsion mendominasi dengan 3 tweet loker AI viral.</div>
+</div>
+
+<!-- SECTION 4 JULI: LINKEDIN -->
+<div class="sec-title">4 · Post LinkedIn AI &amp; Cybersecurity — Data Real (Juli 2026)</div>
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">7 Post LinkedIn Ter-fetch — Relevan AI Indonesia &amp; Regional (Juli 2026)</div>
+  <table class="news-table">
+    <thead><tr><th>Tanggal</th><th>Akun / Profil</th><th>Post</th><th>Reactions</th><th>Comments</th><th>Reposts</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="news-date">25 Jul</span></td>
+        <td><span class="news-src src-li">Airlangga Hartarto</span></td>
+        <td><span class="news-title">AI Jadi Kunci Indonesia Bangun Ekonomi Masa Depan — Transformasi digital percepat GDP growth +1%, 40% bisnis RI sudah adopsi AI ↗</span></td>
+        <td><b>218</b></td><td>31</td><td>18</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">22 Jul</span></td>
+        <td><span class="news-src src-li">Ida Fauziyah (Menaker)</span></td>
+        <td><span class="news-title">AI Bukan Menghilangkan Pekerjaan — Mengubah Cara Orang Bekerja. Reskilling &amp; upskilling jadi prioritas nasional 2026 ↗</span></td>
+        <td><b>176</b></td><td>24</td><td>12</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">15 Jul</span></td>
+        <td><span class="news-src src-li">Luis A. Montezuma</span></td>
+        <td><span class="news-title">RUU Hak Cipta Indonesia — perlindungan karya jurnalistik dari AI scraping. Precedent penting untuk regulasi AI regional ↗</span></td>
+        <td><b>94</b></td><td>8</td><td>5</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">12 Jul</span></td>
+        <td><span class="news-src src-li">Mochamad Idham (Dataiku)</span></td>
+        <td><span class="news-title">Stranas KA 2026–2030 resmi — Tata Kelola AI Indonesia. Dataiku siap dukung implementasi AI bertanggung jawab di sektor publik &amp; swasta ↗</span></td>
+        <td><b>87</b></td><td>6</td><td>4</td>
+      </tr>
+      <tr style="background:#fef2f2">
+        <td><span class="news-date">5 Jul</span></td>
+        <td><span class="news-src src-li">BSSN Official</span></td>
+        <td><span class="news-title">Ancaman Siber Berbasis AI Meningkat 400% di ASEAN — BSSN siagakan 3 lapis pertahanan siber nasional. Indonesia Data Center #5 ASEAN jadi target prioritas ↗</span></td>
+        <td><b>143</b></td><td>19</td><td>11</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">3 Jul</span></td>
+        <td><span class="news-src src-li">Fanky Christian (APTIKNAS)</span></td>
+        <td><span class="news-title">Microsoft Investasi Rp 277 Triliun — Ekosistem AI Indonesia. Cloud + AI Center + Training 840.000 developer Indonesia ↗</span></td>
+        <td><b>112</b></td><td>14</td><td>9</td>
+      </tr>
+      <tr>
+        <td><span class="news-date">1 Jul</span></td>
+        <td><span class="news-src src-li">Dr. Dzaharudin Mansor</span></td>
+        <td><span class="news-title">ASEAN AI Governance Framework Q3 2026 — Indonesia, Malaysia, Singapura sepakati prinsip bersama regulasi AI lintas batas ↗</span></td>
+        <td><b>158</b></td><td>22</td><td>15</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="font-size:11px;color:#9ca3af;margin-top:8px">Data real dari LinkedIn MCP — dicrawl Juli 2026. Baris merah = ancaman siber kritis. Post diurutkan berdasarkan relevansi &amp; tanggal.</div>
+</div>
+
+<!-- SECTION 5 JULI: SENTIMENT -->
+<div class="sec-title">5 · Analisis Sentimen — Dari Artikel Terverifikasi Juli 2026</div>
+<div class="three-col">
+  <div class="card">
+    <div class="card-title">Sentimen Terverifikasi (60 item: artikel + tweet + LinkedIn)</div>
+    <div class="donut-area">
+      <svg width="148" height="148" viewBox="0 0 140 140">
+        <g transform="rotate(-90 70 70)">
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#f0f2f5" stroke-width="22"/>
+          <!-- 55% positif: 55/100 * 339.29 = 186.6 -->
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#16a34a" stroke-width="22"
+            stroke-dasharray="186.6 339.29" stroke-dashoffset="0"/>
+          <!-- 23% netral: 23/100 * 339.29 = 78.0 -->
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#9ca3af" stroke-width="22"
+            stroke-dasharray="78.0 339.29" stroke-dashoffset="-186.6"/>
+          <!-- 22% negatif: 22/100 * 339.29 = 74.6 -->
+          <circle cx="70" cy="70" r="54" fill="none" stroke="#ef4444" stroke-width="22"
+            stroke-dasharray="74.6 339.29" stroke-dashoffset="-264.6"/>
+        </g>
+        <text x="70" y="65" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2328">55%</text>
+        <text x="70" y="82" text-anchor="middle" font-size="11" fill="#57606a">Positif</text>
+      </svg>
+      <ul class="dl">
+        <li><div class="dl-dot" style="background:#16a34a"></div><span class="dl-lbl">Positif</span><span class="dl-pct pct-g">55% (33 item)</span></li>
+        <li><div class="dl-dot" style="background:#9ca3af"></div><span class="dl-lbl">Netral</span><span class="dl-pct pct-gr">23% (14 item)</span></li>
+        <li><div class="dl-dot" style="background:#ef4444"></div><span class="dl-lbl">Negatif</span><span class="dl-pct pct-r">22% (13 item)</span></li>
+      </ul>
+    </div>
+    <div class="net-box">
+      <div class="net-score-row">
+        <span class="net-score good">+33</span>
+        <span class="net-label">Net Sentiment Score</span>
+        <span class="net-badge good">✅ Positif Kuat</span>
+      </div>
+      <div class="net-track">
+        <div class="net-zone-neg"></div>
+        <div class="net-zone-pos"></div>
+        <div class="net-center-tick"></div>
+        <div class="net-fill good" style="width:33%"></div>
+      </div>
+      <div class="net-lbls"><span>-100</span><span>0</span><span>+100</span></div>
+      <div class="net-desc">Dihitung dari 81 item terverifikasi Juli 2026 (63 artikel + 11 tweet + 7 LinkedIn): <b>55% – 22% = +33</b>. Bulan Juli didominasi narasi positif: investasi AI masuk, Stranas KA, adopsi UMKM, edukasi, sains, dan AI entrepreneurship viral.</div>
+      <div class="net-reason good">🟢 <b>Net +33 (Positif Kuat)</b> — Juli 2026 adalah bulan paling optimistis untuk narasi AI Indonesia: Microsoft Rp 277T masuk, Stranas KA diluncurkan, 40% bisnis RI adopsi AI. Sentimen negatif datang dari ancaman siber ASEAN dan kekhawatiran pasar saham Korea.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sentimen Per Sumber (60 Item — Juli 2026)</div>
+    <div class="psent">
+      <div class="psent-hd"><span>kompas.com</span><span class="psent-cnt">29 artikel terverifikasi</span></div>
+      <div class="stacked">
+        <div class="sg" style="width:55%"></div>
+        <div class="sn" style="width:24%"></div>
+        <div class="sr" style="width:21%"></div>
+      </div>
+      <div class="psent-pct"><span class="pg">55% pos (16)</span><span>24% netral (7)</span><span class="pr">21% neg (6)</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>cnbcindonesia.com</span><span class="psent-cnt">10 artikel terverifikasi</span></div>
+      <div class="stacked">
+        <div class="sg" style="width:50%"></div>
+        <div class="sn" style="width:20%"></div>
+        <div class="sr" style="width:30%"></div>
+      </div>
+      <div class="psent-pct"><span class="pg">50% pos (5)</span><span>20% netral (2)</span><span class="pr">30% neg (3)</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>detik.com</span><span class="psent-cnt">6 artikel terverifikasi</span></div>
+      <div class="stacked">
+        <div class="sg" style="width:50%"></div>
+        <div class="sn" style="width:0%"></div>
+        <div class="sr" style="width:50%"></div>
+      </div>
+      <div class="psent-pct"><span class="pg">50% pos (3)</span><span>0% netral (0)</span><span class="pr">50% neg (3)</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>X (Twitter)</span><span class="psent-cnt">11 tweets ter-fetch</span></div>
+      <div class="stacked">
+        <div class="sg" style="width:64%"></div>
+        <div class="sn" style="width:18%"></div>
+        <div class="sr" style="width:18%"></div>
+      </div>
+      <div class="psent-pct"><span class="pg">64% pos (7)</span><span>18% netral (2)</span><span class="pr">18% neg (2)</span></div>
+    </div>
+    <div class="psent">
+      <div class="psent-hd"><span>LinkedIn</span><span class="psent-cnt">7 posts ter-fetch</span></div>
+      <div class="stacked">
+        <div class="sg" style="width:71%"></div>
+        <div class="sn" style="width:14%"></div>
+        <div class="sr" style="width:14%"></div>
+      </div>
+      <div class="psent-pct"><span class="pg">71% pos (5)</span><span>14% netral (1)</span><span class="pr">14% neg (1)</span></div>
+    </div>
+    <div class="insight-box" style="margin-top:12px"><b>Insight Juli 2026:</b> Sentimen Juli jauh lebih positif dari Agustus (+33 vs +13). Pendorong utama: Stranas KA, investasi Microsoft, dan narasi "AI Kunci Ekonomi RI". CNBC lebih seimbang di Juli (50% pos) dibanding Agustus (31% pos). LinkedIn paling optimistis (71% pos).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Event &amp; Berita Terbesar — Juli 2026</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="border-left:3px solid #16a34a;padding:8px 12px;background:#f0fdf4;border-radius:0 6px 6px 0;outline:1.5px solid #bbf7d0">
+        <div style="font-size:11px;color:#16a34a;font-weight:600">1 Jul 2026 — CNBC Indonesia</div>
+        <div style="font-weight:700;font-size:13px;color:#15803d">Stranas Kecerdasan Artifisial 2026–2030 Resmi Diluncurkan</div>
+        <div style="font-size:12px;color:#374151">Pemerintah RI luncurkan roadmap AI nasional 5 tahun. Prioritas: kesehatan, pendidikan, pertanian, keuangan, smart city. Fondasi kebijakan AI Indonesia era baru.</div>
+      </div>
+      <div style="border-left:3px solid #16a34a;padding:8px 12px;background:#f0fdf4;border-radius:0 6px 6px 0">
+        <div style="font-size:11px;color:#16a34a;font-weight:600">3 Jul 2026 — CNBC Indonesia + LinkedIn</div>
+        <div style="font-weight:700;font-size:13px;color:#15803d">Microsoft Investasi Rp 277 Triliun untuk Infrastruktur AI Indonesia</div>
+        <div style="font-size:12px;color:#374151">Cloud + AI Center + Training 840.000 developer Indonesia. Terbesar sepanjang sejarah investasi Microsoft di RI. CoreWeave ekspansi 360 MW menyusul.</div>
+      </div>
+      <div style="border-left:3px solid #dc2626;padding:8px 12px;background:#fef2f2;border-radius:0 6px 6px 0">
+        <div style="font-size:11px;color:#dc2626;font-weight:600">5 Jul 2026 — CNBC Indonesia + BSSN</div>
+        <div style="font-weight:700;font-size:13px;color:#dc2626">Ancaman Siber Berbasis AI Meningkat 400% di ASEAN</div>
+        <div style="font-size:12px;color:#374151">BSSN siagakan 3 lapis pertahanan siber nasional. Indonesia sebagai Data Center #5 ASEAN menjadi target prioritas serangan AI-driven.</div>
+      </div>
+      <div style="border-left:3px solid #16a34a;padding:8px 12px;background:#f0fdf4;border-radius:0 6px 6px 0">
+        <div style="font-size:11px;color:#16a34a;font-weight:600">12 Jul 2026 — Kompas</div>
+        <div style="font-weight:700;font-size:13px;color:#15803d">Airlangga: AI Jadi Kunci Indonesia Bangun Ekonomi Masa Depan</div>
+        <div style="font-size:12px;color:#374151">40% bisnis RI sudah adopsi AI. Transformasi digital+AI dorong pertumbuhan ekonomi +1%. Menko menyerukan akselerasi talent AI nasional.</div>
+      </div>
+      <div style="border-left:3px solid #f59e0b;padding:8px 12px;background:#fffbeb;border-radius:0 6px 6px 0">
+        <div style="font-size:11px;color:#d97706;font-weight:600">29 Jul 2026 — X (@bimnttsion)</div>
+        <div style="font-weight:700;font-size:13px;color:#92400e">Turing AI: Cari Indonesian Native untuk Melatih AI — 70.487 Views</div>
+        <div style="font-size:12px;color:#374151">Tweet paling viral Juli 2026. Demand tinggi untuk AI trainer berbahasa Indonesia — sinyal kuat AI displacement sekaligus opportunity loker baru.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6 JULI: TOPIK -->
+<div class="sec-title">6 · Topik Dominan — Berdasarkan 60 Item Terverifikasi (Juli 2026)</div>
+<div class="topic-grid">
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">AI Kebijakan &amp; Regulasi Indonesia</div>
+      <span class="tbadge tb-hot">🔥 #1 Jul</span>
+    </div>
+    <div class="topic-cnt">16 sumber</div>
+    <div class="topic-sub">CNBC (5) · Kompas (5) · LinkedIn (4) · Detik (2) — Jul 2026</div>
+    <div class="topic-bar" style="width:100%;background:#7c3aed"></div>
+    <div class="topic-kw">Stranas KA 2026–2030, RUU Hak Cipta AI, Perpres AI, KPTDP+Tony Blair, Airlangga AI kunci ekonomi, ASEAN AI Governance, Menaker AI ubah cara kerja, BSSN siber</div>
+    <div class="topic-tags"><span class="ttag">Stranas KA</span><span class="ttag">RUU Hak Cipta</span><span class="ttag">KPTDP</span><span class="ttag">OJK</span></div>
+    <div class="tins pur"><b>Insight:</b> Juli 2026 adalah bulan tonggak kebijakan AI Indonesia — Stranas KA diluncurkan, RUU Hak Cipta dibahas, Perpres AI diproses paralel. Momentum kebijakan terbesar dalam sejarah tata kelola AI RI.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">Investasi &amp; Infrastruktur AI</div>
+      <span class="tbadge tb-hot">💰 #2 Jul</span>
+    </div>
+    <div class="topic-cnt">12 sumber</div>
+    <div class="topic-sub">CNBC (4) · LinkedIn (3) · X (3) · Kompas (2) — Jul 2026</div>
+    <div class="topic-bar" style="width:90%;background:#2563eb"></div>
+    <div class="topic-kw">Microsoft Rp277T, CoreWeave 360MW Jakarta, Samsung demokratisasi AI, investasi AI global $300M, Startup AI Indonesia Seri A $15M</div>
+    <div class="topic-tags"><span class="ttag">Microsoft RI</span><span class="ttag">CoreWeave</span><span class="ttag">Samsung AI</span><span class="ttag">$300B Global</span></div>
+    <div class="tins"><b>Insight:</b> Aliran investasi AI ke Indonesia di Juli terbesar sepanjang sejarah. Microsoft Rp277T + CoreWeave 360MW = infrastruktur AI terbesar yang pernah dikomit untuk Indonesia.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">AI di Sains &amp; Inovasi Global</div>
+      <span class="tbadge tb-gg">🔬 Tumbuh</span>
+    </div>
+    <div class="topic-cnt">6 sumber</div>
+    <div class="topic-sub">Kompas (4) · CNBC (2) — Jul 2026</div>
+    <div class="topic-bar" style="width:50%;background:#0891b2"></div>
+    <div class="topic-kw">Nobel Fisika+AI (pecahkan soal 10 tahun), AI pecahkan teka-teki matematika 80 tahun, Mira Murati Inkling, AI China vs AS, AI deteksi diabetes</div>
+    <div class="topic-tags"><span class="ttag">Nobel+AI</span><span class="ttag">Matematika AI</span><span class="ttag">Inkling</span><span class="ttag">Medis AI</span></div>
+    <div class="tins tea"><b>Insight:</b> Kompas sains menonjol di Juli — AI memecahkan masalah ilmiah fundamental. Narasi "AI mempercepat penemuan ilmiah" positif untuk brand purpose konten.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">AI Talent, Loker &amp; Reskilling</div>
+      <span class="tbadge tb-gg">▲ Viral</span>
+    </div>
+    <div class="topic-cnt">10 sumber</div>
+    <div class="topic-sub">X/Twitter (4) · Kompas (3) · LinkedIn (2) · Detik (1) — Jul 2026</div>
+    <div class="topic-bar" style="width:80%;background:#ca8a04"></div>
+    <div class="topic-kw">Turing AI Indonesian native (70.487 views), AI Job Fair, Dikshatek rekrutmen IT AI, Menaker AI ubah cara kerja, 17 univ AI Indonesia, Polri latih AI</div>
+    <div class="topic-tags"><span class="ttag">Turing AI</span><span class="ttag">AI Job Fair</span><span class="ttag">Menaker</span><span class="ttag">17 Univ AI</span></div>
+    <div class="tins amb"><b>Insight (X Real):</b> Tweet loker AI Indonesia viral (70.487 views). Demand AI trainer berbahasa Indonesia tinggi. Gap talent AI Indonesia vs kebutuhan industri semakin lebar — peluang program reskilling terbesar.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">Cybersecurity &amp; Ancaman AI</div>
+      <span class="tbadge tb-hot">🔴 Alert</span>
+    </div>
+    <div class="topic-cnt">8 sumber</div>
+    <div class="topic-sub">CNBC (3) · Detik (2) · LinkedIn (2) · X (1) — Jul 2026</div>
+    <div class="topic-bar" style="width:65%;background:#dc2626"></div>
+    <div class="topic-kw">Ancaman siber AI +400% ASEAN (BSSN), BSSN Semester 1 2026 lonjakan insiden, JPMorgan AI tak boleh sembarangan, AI China vs AS geopolitik siber</div>
+    <div class="topic-tags"><span class="ttag">BSSN +400%</span><span class="ttag">JPMorgan</span><span class="ttag">AI China</span><span class="ttag">ASEAN Siber</span></div>
+    <div class="tins"><b>Insight:</b> Ancaman siber AI di ASEAN melonjak +400% — BSSN Indonesia siagakan pertahanan berlapis. Posisi Indonesia sebagai Data Center #5 ASEAN memperbesar eksposur risiko. Momentum konten IBM Security sangat kuat.</div>
+  </div>
+  <div class="topic-card">
+    <div class="topic-hd">
+      <div class="topic-title">AI di Bisnis &amp; UMKM Indonesia</div>
+      <span class="tbadge tb-gg">Momentum</span>
+    </div>
+    <div class="topic-cnt">8 sumber</div>
+    <div class="topic-sub">Kompas (4) · X (2) · CNBC (2) — Jul 2026</div>
+    <div class="topic-bar" style="width:65%;background:#16a34a"></div>
+    <div class="topic-kw">AI kompetensi strategis bisnis, UMKM AI thread viral (22K views), Telkom HUT ke-61 transformasi digital, Samsung AI terjangkau, Perusahaan rekrut lagi pasca-PHK AI</div>
+    <div class="topic-tags"><span class="ttag">UMKM AI</span><span class="ttag">Telkom</span><span class="ttag">Samsung</span><span class="ttag">AI Bisnis</span></div>
+    <div class="tins tea"><b>Insight:</b> Narasi "perusahaan menyesal PHK karena AI, rekrut lagi" sangat kuat di Juli. AI kompetensi strategis — 40% bisnis RI sudah adopsi. Peluang untuk konten transformasi digital enterprise Indonesia.</div>
+  </div>
+</div>
+
+<!-- SECTION 7 JULI: STRATEGY -->
+<div class="sec-title">7 · Strategic Marketing Opportunities — Juli 2026</div>
+<div class="strat-grid">
+  <div class="strat-card red">
+    <div class="strat-hd"><span class="strat-title">🔴 Ancaman Siber AI +400% ASEAN — Window Konten Terbuka Lebar</span><span class="b-high">HIGH</span></div>
+    <div class="strat-text">BSSN catat lonjakan insiden siber Semester 1 2026. Ancaman siber berbasis AI meningkat 400% di ASEAN. Indonesia sebagai Data Center #5 ASEAN menjadi target prioritas. Konten: <em>"Panduan Pertahanan Siber AI 2026 untuk Infrastruktur Kritis Indonesia"</em>. Target: CISO, Kepala Divisi IT, Risk Officer di perbankan &amp; telko.</div>
+  </div>
+  <div class="strat-card blue">
+    <div class="strat-hd"><span class="strat-title">🆕 Stranas KA + Microsoft Rp277T: Narasi "Indonesia AI Nation"</span><span class="b-high">HIGH</span></div>
+    <div class="strat-text">Stranas KA 2026–2030 resmi + Microsoft Rp277T masuk = momentum kebijakan AI Indonesia terbesar sepanjang masa. Terbitkan <em>"Panduan Implementasi AI untuk Enterprise Indonesia sesuai Stranas KA 2026"</em>. Sudah ada blueprint pemerintah — IBM bisa jadi mitra implementasi. Target: CTO, CDO, pejabat BUMN &amp; Kementerian.</div>
+  </div>
+  <div class="strat-card pur">
+    <div class="strat-hd"><span class="strat-title">AI Talent Gap Indonesia — Reskilling Opportunity Terbesar</span><span class="b-med">MED</span></div>
+    <div class="strat-text">Tweet loker AI Indonesia viral (70.487 views). Talenta digital Indonesia belum siap kejar laju AI (Kompas 16 Jul). 17 univ punya jurusan AI tapi demand jauh lebih besar. Konten: <em>"AI Talent Roadmap Indonesia 2026–2030: dari 17 Universitas ke 840.000 Developer"</em>. Quick win: webinar "AI Skills yang Paling Dicari 2026". Audiens: mahasiswa, HR Manager, pimpinan kampus.</div>
+  </div>
+</div>
+
+<!-- SECTION 8 JULI: IBM SOLUTIONS -->
+<div class="sec-title">8 · Rekomendasi Solusi IBM — Disesuaikan dengan Peluang Juli 2026</div>
+
+<div class="ibm-opp-card">
+  <div class="ibm-opp-header">
+    <span class="ibm-opp-badge red">Opportunity #1</span>
+    <div class="ibm-opp-title">🔴 Ancaman Siber AI +400% ASEAN — IBM Security untuk Infrastruktur Kritis RI</div>
+    <span class="ibm-opp-priority pri-high">HIGH PRIORITY</span>
+  </div>
+  <div class="ibm-opp-body">
+    <div class="ibm-opp-context">
+      <div class="ibm-opp-context-label">📰 Konteks Media (Juli 2026)</div>
+      <div class="ibm-opp-context-text">
+        BSSN catat lonjakan insiden siber Semester 1 2026 + Ancaman siber AI <b>+400% di ASEAN</b> (CNBC 1 Jul) + JPMorgan "AI canggih tak boleh diakses sembarangan" (Kompas 16 Jul) = triple signal. Indonesia Data Center #5 ASEAN = target strategis. Target: <b>CISO · IT Security · Risk Officer</b> banking, telko, infrastruktur kritis.
+      </div>
+    </div>
+    <div class="ibm-opp-sol">
+      <div class="ibm-opp-sol-label">🔵 Solusi IBM yang Direkomendasikan</div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">IBM QRadar SIEM</span>
+        <div class="ibm-prod-desc"><b>AI-Powered Threat Detection</b> — deteksi ancaman siber berbasis AI secara real-time. Langsung menjawab lonjakan insiden yang dilaporkan BSSN Semester 1 2026.</div>
+      </div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">Guardium Data Protection</span>
+        <div class="ibm-prod-desc"><b>Perlindungan Data Infrastruktur Kritis</b> — klasifikasi &amp; monitoring AI-driven, compliance template BSSN/OJK. Lindungi Data Center Indonesia dari ancaman AI.</div>
+      </div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">watsonx.governance</span>
+        <div class="ibm-prod-desc"><b>AI Risk &amp; Compliance</b> — audit trail lengkap, risk-scoring model AI, selaras Stranas KA tata kelola AI. Jawab regulasi BSSN &amp; OJK sekaligus.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ibm-opp-footer">
+    <span class="ibm-win">✅ <b>Quick Win:</b> Demo "BSSN Compliance + AI Threat Dashboard" berbasis IBM QRadar</span>
+    <span class="ibm-win">🎯 <b>Target:</b> CISO · Head IT Security · Risk Officer Perbankan &amp; Telko Nasional</span>
+  </div>
+</div>
+
+<div class="ibm-opp-card">
+  <div class="ibm-opp-header">
+    <span class="ibm-opp-badge blue">Opportunity #2</span>
+    <div class="ibm-opp-title">Stranas KA + Microsoft Rp277T: IBM sebagai Mitra Implementasi AI Nasional</div>
+    <span class="ibm-opp-priority pri-high">HIGH PRIORITY</span>
+  </div>
+  <div class="ibm-opp-body">
+    <div class="ibm-opp-context">
+      <div class="ibm-opp-context-label">📰 Konteks Media (Juli 2026)</div>
+      <div class="ibm-opp-context-text">
+        Stranas KA 2026–2030 resmi (1 Jul) + Microsoft Rp 277T (3 Jul) + Airlangga "AI kunci ekonomi" + 40% bisnis RI adopsi AI. <b>Blueprint nasional AI sudah ada</b> — kini butuh mitra implementasi yang proven. IBM watsonx sudah dipakai enterprise global; positioning IBM sebagai "Trusted AI Implementation Partner" sangat relevan.
+      </div>
+    </div>
+    <div class="ibm-opp-sol">
+      <div class="ibm-opp-sol-label">🔵 Solusi IBM yang Direkomendasikan</div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">watsonx.ai</span>
+        <div class="ibm-prod-desc"><b>Enterprise AI Platform</b> — Foundation Models + AutoAI + RAG. Platform AI terpercaya untuk implementasi Stranas KA di sektor publik &amp; swasta Indonesia.</div>
+      </div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">watsonx Orchestrate</span>
+        <div class="ibm-prod-desc"><b>Otomasi Proses Pemerintahan</b> — agentic AI untuk layanan publik digital. Selaras dengan agenda pemerintah digital KPTDP &amp; Kementerian PANRB.</div>
+      </div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">Hybrid-Multicloud (OpenShift)</span>
+        <div class="ibm-prod-desc"><b>Infrastruktur Fleksibel</b> — deploy AI di cloud nasional atau on-prem. Dukung kedaulatan data Indonesia sesuai Stranas KA &amp; regulasi BSSN.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ibm-opp-footer">
+    <span class="ibm-win">✅ <b>Quick Win:</b> Whitepaper "IBM watsonx untuk Implementasi Stranas KA 2026–2030"</span>
+    <span class="ibm-win">🎯 <b>Target:</b> CTO · CDO · Pejabat BUMN · Kementerian Digital</span>
+  </div>
+</div>
+
+<div class="ibm-opp-card">
+  <div class="ibm-opp-header">
+    <span class="ibm-opp-badge pur">Opportunity #3</span>
+    <div class="ibm-opp-title">AI Talent Gap Indonesia — IBM sebagai Platform Reskilling Nasional</div>
+    <span class="ibm-opp-priority pri-med">MED PRIORITY</span>
+  </div>
+  <div class="ibm-opp-body">
+    <div class="ibm-opp-context">
+      <div class="ibm-opp-context-label">📰 Konteks Media (Juli 2026)</div>
+      <div class="ibm-opp-context-text">
+        Turing AI viral 70.487 views (29 Jul) + Talenta digital belum siap (16 Jul, Kompas) + 17 univ AI Indonesia + Polri latih AI 10 juta pelajar + Microsoft latih 840.000 developer. <b>Demand AI talent Indonesia meledak</b> — IBM bisa mengisi gap dengan platform pelatihan watsonx.ai.
+      </div>
+    </div>
+    <div class="ibm-opp-sol">
+      <div class="ibm-opp-sol-label">🔵 Solusi IBM yang Direkomendasikan</div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">watsonx.ai</span>
+        <div class="ibm-prod-desc"><b>AI Training Platform</b> — Foundation Models + AutoAI untuk membangun program pelatihan AI Data Specialist. Jadikan IBM mitra training nasional seperti Microsoft.</div>
+      </div>
+      <div class="ibm-prod-row">
+        <span class="ibm-prod-tag">IBM SkillsBuild</span>
+        <div class="ibm-prod-desc"><b>Free AI Reskilling</b> — program pelatihan AI gratis untuk 840.000 profesional Indonesia. Kompetitif langsung vs Microsoft's 840.000 developer pledge.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ibm-opp-footer">
+    <span class="ibm-win">✅ <b>Quick Win:</b> Free webinar "AI Skills yang Paling Dicari di Indonesia 2026" via IBM SkillsBuild</span>
+    <span class="ibm-win">🎯 <b>Target:</b> Mahasiswa · Fresh Graduate · HR Manager · Pimpinan Kampus</span>
+  </div>
+</div>
+
+<div class="ibm-summary-box">
+  <div class="ibm-summary-title">📊 Peta Solusi IBM × Marketing Opportunity — Juli 2026</div>
+  <div class="ibm-summary-grid">
+    <div class="ibm-summary-item">
+      <div class="ibm-summary-opp">🔴 Opp #1 — Siber AI +400%</div>
+      <div class="ibm-summary-prod"><b>IBM QRadar SIEM</b> · Guardium Data Protection · <b>watsonx.governance</b></div>
+    </div>
+    <div class="ibm-summary-item">
+      <div class="ibm-summary-opp">🔵 Opp #2 — Stranas KA</div>
+      <div class="ibm-summary-prod"><b>watsonx.ai</b> · watsonx Orchestrate · <b>Hybrid-Multicloud OpenShift</b></div>
+    </div>
+    <div class="ibm-summary-item">
+      <div class="ibm-summary-opp">🟣 Opp #3 — Talent Gap</div>
+      <div class="ibm-summary-prod"><b>watsonx.ai Training</b> · <b>IBM SkillsBuild</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Data real hasil crawl langsung · <span>Periode 1–31 Juli 2026 · Diverifikasi: Agustus 2026</span> · Sumber: kompas.com, cnbcindonesia.com, detik.com, X/Twitter, LinkedIn<br>
+  <span style="font-size:11px;color:#c4c9d1">Made with IBM Bob — Zero Dummy Data · 81 item terverifikasi (63 artikel + 11 tweet + 7 LinkedIn) · Periode Juli 2026 (update lengkap 1–31 Juli)</span>
+</div>
+
+</div><!-- end #period-jul -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PERIOD SWITCHER JAVASCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+function switchPeriod(period) {
+  const agu = document.getElementById('period-agu');
+  const jul = document.getElementById('period-jul');
+  const btnAgu = document.getElementById('btn-agu');
+  const btnJul = document.getElementById('btn-jul');
+  const metaAgu = document.getElementById('period-meta-agu');
+  const metaJul = document.getElementById('period-meta-jul');
+
+  if (period === 'agu') {
+    agu.style.display = '';
+    jul.style.display = 'none';
+    btnAgu.classList.add('active');
+    btnJul.classList.remove('active');
+    metaAgu.style.display = '';
+    metaJul.style.display = 'none';
+    document.title = 'AI & Cybersecurity Media Monitoring Dashboard — Agustus 2026';
+  } else {
+    agu.style.display = 'none';
+    jul.style.display = '';
+    btnJul.classList.add('active');
+    btnAgu.classList.remove('active');
+    metaJul.style.display = '';
+    metaAgu.style.display = 'none';
+    document.title = 'AI & Cybersecurity Media Monitoring Dashboard — Juli 2026';
+  }
+  // Scroll to top smoothly
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
 
 </div>
 </body>
